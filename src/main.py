@@ -2,15 +2,21 @@
 
 # Press ⌃R to execute it or replace it with your code.
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+# from src.datasets.datasets import DatasetName
+from src.config.configs import Config
+from src.datasets.datasets import DatasetType
+from src.datasets.locator import DatasetLocator
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+def run():
+    conf = Config()
+    locator = DatasetLocator(conf)
+    dataset = locator.data_loader(DatasetType.TEST)
 
+    print(iter(dataset).next())
 
-# Press the green button in the gutter to run the script.
+# plot some imgs
+# plot class distribution
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    run()
