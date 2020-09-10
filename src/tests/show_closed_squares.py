@@ -31,5 +31,6 @@ def run():
     print(f"test: {np.bincount(test.labels)}")
     print(f"train: {np.bincount(train.labels)}")
 
+
 if __name__ == '__main__':
     run()
