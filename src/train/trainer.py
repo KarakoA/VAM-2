@@ -294,7 +294,7 @@ class Trainer:
 
         print("[*] Test Acc: {}/{} ({:.2f}% - {:.2f}%)".format(
             correct, self.num_test, perc, error))
-        return preds
+        return torch.cat(preds)
 
     def save_checkpoint(self, state, is_best):
         """Saves a checkpoint of the model.
@@ -320,6 +320,7 @@ class Trainer:
         if best:
             filename = self.config.model_name + "_model_best.pth.tar"
         ckpt_path = os.path.join(self.config.ckpt_dir, filename)
+        print(os.path.abspath(ckpt_path))
         ckpt = torch.load(ckpt_path, map_location="cpu")
 
         # load variables from checkpoint
