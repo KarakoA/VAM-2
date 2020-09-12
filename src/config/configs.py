@@ -21,7 +21,7 @@ class Config():
 
         # ETC params
         self.valid_size      = 0.1       # Proportion of training set used for validation
-        self.batch_size      = 128       # Num of images in each batch of data
+        self.batch_size      = 100       # Num of images in each batch of data
         self.num_workers     = 4         # Num of subprocesses to use for data loading
         self.shuffle         = True      # Whether to shuffle the train and valid indices
         self.show_sample     = False     # Whether to visualize a sample grid of the data

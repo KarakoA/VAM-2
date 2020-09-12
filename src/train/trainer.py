@@ -255,7 +255,7 @@ class Trainer:
         losses = AverageMeter()
         accs = AverageMeter()
         # TODO check
-        self.model.test()
+        self.model.eval()
         for i, (x, y) in enumerate(self.valid_loader):
             loss, acc, preds, locs, imgs = self.one_batch(x, y)
 
@@ -282,7 +282,7 @@ class Trainer:
         # load the best checkpoint
         self.load_checkpoint(best=self.best)
         # TODO check
-        self.model.test()
+        self.model.eval()
 
         for i, (x, y) in enumerate(self.test_loader):
             loss, acc, predictions, locs, imgs = self.one_batch(x, y)
