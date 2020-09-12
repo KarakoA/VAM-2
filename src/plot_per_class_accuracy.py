@@ -25,8 +25,6 @@ def run():
 
     labels = np.array(locator.dataset_dict[DatasetType.TEST].labels)
     correct = labels == predictions
-    print(labels.shape)
-    print(predictions.shape)
 
     correct_counts = np.bincount(labels[correct])
 
