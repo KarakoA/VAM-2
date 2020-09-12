@@ -3,6 +3,7 @@ import math
 import torch.nn as nn
 import torch.nn.functional as F
 
+from src.config.configs import Config
 from src.network.glimpse_sensor import Retina
 
 
@@ -12,8 +13,8 @@ class GlimpseNetwork(nn.Module):
     TODO
 
     Args:
-        h_g: hidden layer size of the fc layer for `phi`.
-        h_l: hidden layer size of the fc layer for `l`.
+        conf.glimpse_hidden: hidden layer size of the fc layer for `phi`.
+        conf.loc_hidden: hidden layer size of the fc layer for `l`.
         g: size of the square patches in the glimpses extracted
         by the retina.
         k: number of patches to extract per glimpse.
@@ -31,12 +32,12 @@ class GlimpseNetwork(nn.Module):
             timestep `t`.
     """
 
-    def __init__(self, h_g, h_l, conf):
+    def __init__(self, conf:Config):
         super().__init__()
 
         self.retina = Retina(conf)
-
-        D_out = h_g + h_l
+        
+        D_out = conf.glimpse_hidden + conf.loc_hidden
 
         # what
 
@@ -57,14 +58,14 @@ class GlimpseNetwork(nn.Module):
         reduced_dim = math.floor((1 + math.floor((1 + 12 + 1) / 3) + 1) / 3)
         D_in = self.conv3.out_channels * reduced_dim * reduced_dim
 
-        self.fc1 = nn.Linear(in_features=D_in, out_features=h_g)
-        self.fc2 = nn.Linear(in_features=h_g, out_features=D_out)
+        self.fc1 = nn.Linear(in_features=D_in, out_features=conf.glimpse_hidden)
+        self.fc2 = nn.Linear(in_features=conf.glimpse_hidden, out_features=D_out)
         self.bn2 = nn.BatchNorm1d(num_features=D_out, track_running_stats=True)
 
         # where
         # in_features = 2, loc is a tuple of (x,y)
-        self.loc_fc1 = nn.Linear(in_features=2, out_features=h_l)
-        self.loc_fc2 = nn.Linear(in_features=h_l, out_features=D_out)
+        self.loc_fc1 = nn.Linear(in_features=2, out_features=conf.loc_hidden)
+        self.loc_fc2 = nn.Linear(in_features=conf.loc_hidden, out_features=D_out)
 
     def forward(self, x, l_t_prev):
         # generate glimpse phi from image x

@@ -1,13 +1,12 @@
-import torch.nn as nn
-
-import torch.nn as nn
 import torch
+import torch.nn as nn
 
 from src.network.action_network import ActionNetwork
 from src.network.baseline_network import BaselineNetwork
+from src.network.core_network import CoreNetwork
 from src.network.glimpse_network import GlimpseNetwork
 from src.network.location_network import LocationNetwork
-from src.network.core_network import CoreNetwork
+
 
 class RecurrentAttention(nn.Module):
     """A Recurrent Model of Visual Attention (RAM) [1].
@@ -22,9 +21,7 @@ class RecurrentAttention(nn.Module):
       [1]: Minh et. al., https://arxiv.org/abs/1406.6247
     """
 
-    def __init__(
-            self, g, k, s, c, h_g, h_l, std, hidden_size, num_classes,
-    ):
+    def __init__(self,config):
         """Constructor.
 
         Args:
@@ -42,13 +39,11 @@ class RecurrentAttention(nn.Module):
         """
         super().__init__()
 
-        self.std = std
-
-        self.sensor = GlimpseNetwork(h_g, h_l, g, k, s, c)
-        self.rnn = CoreNetwork(hidden_size, hidden_size)
-        self.locator = LocationNetwork(hidden_size, 2, std)
-        self.classifier = ActionNetwork(hidden_size, num_classes)
-        self.baseliner = BaselineNetwork(hidden_size, 1)
+        self.sensor = GlimpseNetwork(config)
+        self.rnn = CoreNetwork(config.hidden_size, config.hidden_size)
+        self.locator = LocationNetwork(config.hidden_size, 2, config.std)
+        self.classifier = ActionNetwork(config.hidden_size, config.num_classes)
+        self.baseliner = BaselineNetwork(config.hidden_size, 1)
 
     def forward(self, x, l_t_prev, last=False):
         """Run RAM for one timestep on a minibatch of images.

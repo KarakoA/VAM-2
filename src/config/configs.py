@@ -16,6 +16,9 @@ class Config():
         self.std             = 0.05      # gaussian policy standard deviation
         self.M               = 1         # Monte Carlo sampling for valid and test sets
 
+        # action network
+        self.num_classes     = 4         # the number of classes
+
         # ETC params
         self.valid_size      = 0.1       # Proportion of training set used for validation
         self.batch_size      = 128       # Num of images in each batch of data
@@ -26,7 +29,7 @@ class Config():
         # training params
         self.is_train        = True      # Whether to train(true) or test the model
         self.weight_decay    = 1e-5      # Weight decay for regularization
-        self.momentum        = 0.5       # Nesterov momentum value
+        self.momentum        = 0.5       # Nesterov momentum value TODO not used
         self.epochs          = 500       # Num of epochs to train for
         self.init_lr         = 3e-4      # Initial learning rate value
         self.lr_patience     = 20        # Number of epochs to wait before reducing lr
