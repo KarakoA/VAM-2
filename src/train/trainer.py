@@ -287,8 +287,7 @@ class Trainer:
         for i, (x, y) in enumerate(self.test_loader):
             loss, acc, predictions, locs, imgs = self.one_batch(x, y)
 
-            # TODO check
-            correct += (predictions == y).float()
+            correct += sum(predictions == y)
             preds.append(predictions)
         perc = (100.0 * correct) / (self.num_test)
         error = 100 - perc

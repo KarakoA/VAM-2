@@ -28,6 +28,7 @@ class Config():
 
         # training params
         self.is_train        = True      # Whether to train(true) or test the model
+        self.resume          = False     # Whether to resume training from checkpoint
         self.weight_decay    = 1e-5      # Weight decay for regularization
         self.momentum        = 0.5       # Nesterov momentum value TODO not used
         self.epochs          = 500       # Num of epochs to train for
@@ -36,7 +37,6 @@ class Config():
         self.train_patience  = 150       # Number of epochs to wait before stopping train
 
         # other params
-        self.resume          = False     # Whether to resume training from checkpoint
         self.use_gpu         = True      # Whether to run on the GPU
         self.best            = True      # Load best model or most recent for testing
         self.random_seed     = 1         # Seed to ensure reproducibility
