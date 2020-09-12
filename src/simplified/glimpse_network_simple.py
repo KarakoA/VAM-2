@@ -59,10 +59,11 @@ class GlimpseNetwork(nn.Module):
         # flatten
         # keep batch dimension and determine other one automatically
         h = phi.view(x.shape[0], -1)
+
         logging.debug(f"Flatten:    {h.shape}")
 
         # fully connected layers
-        h = self.fc1(phi)
+        h = self.fc1(h)
         logging.debug(f"Fc1:        {h.shape}")
         h = self.fc2(h)
         logging.debug(f"Fc2:        {h.shape}")
