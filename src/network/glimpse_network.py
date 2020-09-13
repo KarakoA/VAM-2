@@ -130,5 +130,5 @@ class GlimpseNetwork(nn.Module):
         # combine what and where
         g = F.relu(h * l)
 
-        logging.debug(f"relu(h * l):   {g.shape}\n\n\n")
+        logging.debug(f"relu(h * l):   {g.shape}\n\n")
         return g

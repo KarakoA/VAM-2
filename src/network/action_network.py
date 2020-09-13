@@ -35,5 +35,8 @@ class ActionNetwork(nn.Module):
         logging.info(self)
 
     def forward(self, h_t):
+        logging.debug("\n\nActionNetwork")
+        logging.debug(f"Input:   {h_t.shape}")
         a_t = F.log_softmax(self.fc(h_t), dim=1)
+        logging.debug(f"Softmax: {a_t.shape}\n\n")
         return a_t

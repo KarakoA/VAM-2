@@ -39,10 +39,16 @@ class CoreNetwork(nn.Module):
             requires_grad=True)
 
     def forward(self, g_t):
+        logging.debug("\n\nCoreNetwork")
+        logging.debug(f"Input:      {g_t.shape}")
         # need to add seq dimension
         g_t = g_t.unsqueeze(1)
+        logging.debug(f"Input(Seq): {g_t.shape}")
         # output == top layer of h_t. So for 2 layers `o == h_t[1]` yield all true
         (output, (self.cell_state, self.hidden_state)) = self.stacked_lstm.forward(g_t,
                                                                                    (self.cell_state, self.hidden_state))
+        logging.debug(f"Output:     {output.shape}")
+        logging.debug(f"CellSt:     {self.cell_state.shape}")
+        logging.debug(f"HiddenSt:   {self.hidden_state.shape}\n\n")
         # remove seq dimension
         return output.squeeze()
