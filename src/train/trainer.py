@@ -112,12 +112,12 @@ class Trainer:
 
             is_best = valid_acc > self.best_valid_acc
             msg1 = "train loss: {:.3f} - train acc: {:.3f} "
-            msg2 = "- val loss: {:.3f} - val acc: {:.3f} - val err: {:.3f}"
+            msg2 = "- val loss: {:.3f} - val acc: {:.3f}"
             if is_best:
                 self.counter = 0
                 msg2 += " [*]"
             msg = msg1 + msg2
-            print(msg.format(train_loss, train_acc, valid_loss, 100 - valid_acc, valid_acc))
+            print(msg.format(train_loss, train_acc, valid_loss, valid_acc))
 
             # check for improvement
             if not is_best:
