@@ -2,10 +2,10 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-from src.config.configs import Config
-from src.datasets.datasets import DatasetType
-from src.datasets.locator import DatasetLocator
-from src.train.trainer import Trainer
+from config.configs import Config
+from datasets.datasets import DatasetType
+from datasets.locator import DatasetLocator
+from train.trainer import Trainer
 
 def run():
     config = Config()

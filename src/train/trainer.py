@@ -10,8 +10,8 @@ from tqdm import tqdm
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tensorboard_logger import configure, log_value
 
-from src.network.dram import RecurrentAttention
-from src.utils.utils import AverageMeter
+from network.dram import RecurrentAttention
+from utils.utils import AverageMeter
 
 
 class Trainer:

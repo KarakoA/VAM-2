@@ -2,18 +2,18 @@
 
 # Press ⌃R to execute it or replace it with your code.
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-# from src.datasets.datasets import DatasetName
+# from datasets.datasets import DatasetName
 import logging
 
-from src.config.configs import Config
-from src.datasets.datasets import DatasetType
-from src.datasets.locator import DatasetLocator
+from config.configs import Config
+from datasets.datasets import DatasetType
+from datasets.locator import DatasetLocator
 
 
 import torch
 
-from src.train.trainer import Trainer
-from src.utils.utils import prepare_dirs
+from train.trainer import Trainer
+from utils.utils import prepare_dirs
 
 
 def main(config):

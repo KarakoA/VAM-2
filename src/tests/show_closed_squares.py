@@ -1,10 +1,10 @@
-from src.datasets.closed_squares import ClosedSquaresDataset
+from datasets.closed_squares import ClosedSquaresDataset
 
 import matplotlib.pyplot as plt
 from matplotlib import patches
 import numpy as np
 
-from src.utils import plots
+from utils import plots
 
 
 def run():

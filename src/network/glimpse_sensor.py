@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 
-from src.config.configs import Config
+from config.configs import Config
 
 class Retina:
     """
