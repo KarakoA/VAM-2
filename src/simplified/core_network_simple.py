@@ -1,3 +1,5 @@
+import logging
+
 import torch.nn as nn
 import torch
 import torch.nn.functional as F
@@ -12,6 +14,7 @@ class CoreNetwork(nn.Module):
 
         self.i2h = nn.Linear(input_size, hidden_size)
         self.h2h = nn.Linear(hidden_size, hidden_size)
+        logging.info(self)
 
     def forward(self, g_t):
         h1 = self.i2h(g_t)

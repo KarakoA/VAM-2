@@ -1,3 +1,5 @@
+import logging
+
 import torch.nn as nn
 
 
@@ -22,6 +24,7 @@ class BaselineNetwork(nn.Module):
     def __init__(self, input_size, output_size):
         super().__init__()
         self.fc = nn.Linear(input_size, output_size)
+        logging.info(self)
 
     def forward(self, h_t):
         b_t = self.fc(h_t.detach())

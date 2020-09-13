@@ -1,3 +1,5 @@
+import logging
+
 import torch.nn as nn
 import torch 
 class CoreNetwork(nn.Module):
@@ -21,6 +23,7 @@ class CoreNetwork(nn.Module):
                                     hidden_size=hidden_size,
                                     num_layers=self.num_layers,
                                     batch_first=True)
+        logging.info(self)
 
     def reset(self, batch_size, device):
         self.hidden_state = torch.zeros(

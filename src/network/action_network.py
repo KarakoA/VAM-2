@@ -1,3 +1,5 @@
+import logging
+
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -29,8 +31,8 @@ class ActionNetwork(nn.Module):
 
     def __init__(self, input_size, output_size):
         super().__init__()
-
         self.fc = nn.Linear(input_size, output_size)
+        logging.info(self)
 
     def forward(self, h_t):
         a_t = F.log_softmax(self.fc(h_t), dim=1)

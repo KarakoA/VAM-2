@@ -1,3 +1,5 @@
+import logging
+
 import torch.nn as nn
 import torch
 from torch.distributions import Normal
@@ -42,6 +44,7 @@ class LocationNetwork(nn.Module):
         hid_size = input_size // 2
         self.fc = nn.Linear(input_size, hid_size)
         self.fc_lt = nn.Linear(hid_size, output_size)
+        logging.info(self)
 
     def forward(self, h_t):
         # compute mean
