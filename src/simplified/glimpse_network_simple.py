@@ -40,7 +40,6 @@ class GlimpseNetwork(nn.Module):
 
         self.fc1 = nn.Linear(in_features=self.retina.num_patches * self.retina.patch_size * self.retina.patch_size, out_features=conf.glimpse_hidden)
         self.fc2 = nn.Linear(in_features=conf.glimpse_hidden, out_features=D_out)
-        self.bn2 = nn.BatchNorm1d(num_features=D_out, track_running_stats=True)
 
         # where
         # in_features = 2, loc is a tuple of (x,y)
@@ -66,8 +65,6 @@ class GlimpseNetwork(nn.Module):
         logging.debug(f"Fc1:        {h.shape}")
         h = self.fc2(h)
         logging.debug(f"Fc2:        {h.shape}")
-        h = self.bn2(h)
-        logging.debug(f"Bn1:        {h.shape}")
         h = F.relu(h)
         logging.debug(f"Bn1 ReLu:   {h.shape}")
 
