@@ -117,7 +117,7 @@ class Trainer:
                 self.counter = 0
                 msg2 += " [*]"
             msg = msg1 + msg2
-            print(msg.format(train_loss, train_acc, valid_loss, valid_acc, 100 - valid_acc))
+            print(msg.format(train_loss, train_acc, valid_loss, 100 - valid_acc, valid_acc))
 
             # check for improvement
             if not is_best:

@@ -27,7 +27,7 @@ import matplotlib.animation as animation
 def run():
     config = Config()
     plot_dir = "./plots/" + config.model_name + "/"
-    epoch = 63
+    epoch = 64
     # read in pickle files
     images = pickle.load(open(plot_dir + "g_{}.p".format(epoch), "rb"))
     locations = pickle.load(open(plot_dir + "l_{}.p".format(epoch), "rb"))

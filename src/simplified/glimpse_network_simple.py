@@ -62,7 +62,7 @@ class GlimpseNetwork(nn.Module):
         logging.debug(f"Flatten:    {h.shape}")
 
         # fully connected layers
-        h = self.fc1(phi)
+        h = self.fc1(h)
         logging.debug(f"Fc1:        {h.shape}")
         h = self.fc2(h)
         logging.debug(f"Fc2:        {h.shape}")
