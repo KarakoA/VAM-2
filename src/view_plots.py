@@ -3,7 +3,7 @@ import pickle
 import argparse
 import matplotlib.patches as patches
 
-from src.config.configs import Config
+from config.configs import Config
 
 
 def denormalize(T, coords):

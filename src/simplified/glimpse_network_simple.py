@@ -3,8 +3,8 @@ import logging
 import torch.nn as nn
 import torch.nn.functional as F
 
-from src.config.configs import Config
-from src.network.glimpse_sensor import Retina
+from config.configs import Config
+from network.glimpse_sensor import Retina
 
 
 class GlimpseNetwork(nn.Module):

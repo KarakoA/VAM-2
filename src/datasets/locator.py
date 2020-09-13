@@ -2,9 +2,9 @@ import torch
 import torchvision
 from torchvision.transforms import transforms
 
-from src.config.configs import Config
-from src.datasets.closed_squares import ClosedSquaresDataset
-from src.datasets.datasets import DatasetType, DatasetName
+from config.configs import Config
+from datasets.closed_squares import ClosedSquaresDataset
+from datasets.datasets import DatasetType, DatasetName
 import numpy as np
 
 

@@ -1,11 +1,11 @@
 import torch
 import torch.nn as nn
 
-from src.network.action_network import ActionNetwork
-from src.network.baseline_network import BaselineNetwork
-from src.network.core_network import CoreNetwork
-from src.network.glimpse_network import GlimpseNetwork
-from src.network.location_network import LocationNetwork
+from network.action_network import ActionNetwork
+from network.baseline_network import BaselineNetwork
+from network.core_network import CoreNetwork
+from network.glimpse_network import GlimpseNetwork
+from network.location_network import LocationNetwork
 
 
 class RecurrentAttention(nn.Module):

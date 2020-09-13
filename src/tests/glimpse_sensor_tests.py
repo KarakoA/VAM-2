@@ -1,11 +1,11 @@
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
-from src.config.configs import Config
-from src.datasets.closed_squares import ClosedSquaresDataset
-from src.datasets.datasets import DatasetType
-from src.datasets.locator import DatasetLocator
-from src.network.glimpse_sensor import Retina
+from config.configs import Config
+from datasets.closed_squares import ClosedSquaresDataset
+from datasets.datasets import DatasetType
+from datasets.locator import DatasetLocator
+from network.glimpse_sensor import Retina
 
 import scipy.misc
 

@@ -1,4 +1,4 @@
-from src.datasets.datasets import DatasetName
+from datasets.datasets import DatasetName
 class Config():
     def __init__(self):
         # glimpse network params
