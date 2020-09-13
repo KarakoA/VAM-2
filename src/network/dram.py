@@ -1,3 +1,5 @@
+import logging
+
 import torch
 import torch.nn as nn
 
@@ -93,6 +95,7 @@ class RecurrentAttention(nn.Module):
         self.rnn.reset(batch_size=batch_size, device=device)
 
         l_t = torch.FloatTensor(batch_size, 2).uniform_(-1, 1).to(device)
+        logging.debug(f"DRAM reset, l_0: {l_t}")
         l_t.requires_grad = True
 
         return l_t
