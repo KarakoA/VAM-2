@@ -232,7 +232,7 @@ class Trainer:
         loss_reinforce = torch.mean(loss_reinforce, dim=0)
 
         # sum up into a hybrid loss
-        loss = loss_action + loss_baseline + loss_reinforce * 0.01
+        loss = loss_action + loss_baseline + loss_reinforce
 
         # compute accuracy
         correct = (predicted == y).float()
