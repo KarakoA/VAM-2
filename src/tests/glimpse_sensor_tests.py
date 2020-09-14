@@ -63,7 +63,7 @@ def show_data():
     locs = torch.zeros(4,2)
     labels = ["0", "1", "2", "3"]
     images = torch.tensor(images).unsqueeze(1)
-    print(images.shape)
+
     show_patches(images, labels, glimpse_sensor, locs)
 def run():
   show_racoon()
