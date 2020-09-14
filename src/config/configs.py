@@ -9,7 +9,7 @@ class Config():
         self.glimpse_hidden  = 128       # hidden size of glimpse fc
 
         # core network params
-        self.num_glimpses    = 3         # Num of glimpses, i.e. BPTT iterations
+        self.num_glimpses    = 4         # Num of glimpses, i.e. BPTT iterations
         self.hidden_size     = 256       # hidden size of rnn
 
         # reinforce params

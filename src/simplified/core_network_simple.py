@@ -22,6 +22,7 @@ class CoreNetwork(nn.Module):
         #TODO @Anton
         h2 = self.h2h(self.hidden_state)
         h_t = F.relu(h1 + h2)
+        self.hidden_state = h_t
         return h_t
 
     def reset(self, batch_size, device):
