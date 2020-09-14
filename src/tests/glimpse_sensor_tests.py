@@ -6,7 +6,7 @@ from datasets.closed_squares import ClosedSquaresDataset
 from datasets.datasets import DatasetType
 from datasets.locator import DatasetLocator
 from network.glimpse_sensor import Retina
-
+from skimage.transform import resize
 import scipy.misc
 
 def show_patches(images, labels, retina, locs, suptitle = ""):
@@ -27,7 +27,7 @@ def show_patches(images, labels, retina, locs, suptitle = ""):
     fig.suptitle(suptitle, fontsize=20)
     plt.show()
 
-def run():
+def show_racoon():
     conf = Config()
     glimpse_sensor = Retina(conf)
     test = ClosedSquaresDataset(train=False)
@@ -37,12 +37,12 @@ def run():
     images = torch.cat(images).unsqueeze(1)
 
     locs = torch.tensor([[0, 0],
-                     [-1, -1],
-                    [1, 1],
-                    [0,1],
-                    [0,-1],
-                    [0.5,0.5]]
-                    )
+                         [-1, -1],
+                         [1, 1],
+                         [0, 1],
+                         [0, -1],
+                         [0.5, 0.5]]
+                        )
     labels = ["Center", "Top Left", "Bottom Right", "Bottom Center", "Top Center", "Random"]
     images = scipy.misc.face()[:, :, 0]
     images = resize(images, (64, 64))
@@ -50,9 +50,25 @@ def run():
 
     images = np.repeat(images, n).reshape((images.shape[0], images.shape[1], n)).transpose(2, 0, 1)
     images = torch.tensor(images).unsqueeze(1)
-    show_patches(images,labels,glimpse_sensor,locs)
+    show_patches(images, labels, glimpse_sensor, locs)
 
-from skimage.transform import resize
+def show_data():
+    conf = Config()
+    glimpse_sensor = Retina(conf)
+    test = ClosedSquaresDataset(train=False)
+    # one of each class
+    images, targets = test[0:400:100]
+    images = torch.cat(images).numpy()
+
+    locs = torch.zeros(4,2)
+    labels = ["0", "1", "2", "3"]
+    images = torch.tensor(images).unsqueeze(1)
+    print(images.shape)
+    show_patches(images, labels, glimpse_sensor, locs)
+def run():
+  show_racoon()
+  show_data()
+
 
 # and other with patches from mine
 if __name__ == '__main__':
