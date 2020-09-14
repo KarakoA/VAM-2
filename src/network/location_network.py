@@ -61,4 +61,9 @@ class LocationNetwork(nn.Module):
         # bound between [-1, 1]
         l_t = torch.clamp(l_t, -1, 1)
 
+        l_t = torch.zeros(
+            (h_t.shape[0],2),
+            dtype=torch.float,
+            device="cpu",
+            requires_grad=True)
         return log_pi, l_t
