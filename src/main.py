@@ -42,7 +42,7 @@ def main(config):
 
 if __name__ == '__main__':
 
-    log_level = logging.DEBUG
+    log_level = logging.INFO
     logging.basicConfig(level=log_level, format='%(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M')
 
