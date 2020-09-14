@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 import shutil
@@ -65,7 +66,7 @@ class Trainer:
         # configure tensorboard logging
         if self.config.use_tensorboard:
             tensorboard_dir = self.config.logs_dir + self.config.model_name
-            print("[*] Saving tensorboard logs to {}".format(tensorboard_dir))
+            logging.info("[*] Saving tensorboard logs to {}".format(tensorboard_dir))
             if not os.path.exists(tensorboard_dir):
                 os.makedirs(tensorboard_dir)
             configure(tensorboard_dir)
@@ -95,11 +96,11 @@ class Trainer:
         if self.config.resume:
             self.load_checkpoint(best=False)
 
-        print("\n[*] Train on {} samples, validate on {} samples"
+        logging.info("\n[*] Train on {} samples, validate on {} samples"
               .format(self.num_train, self.num_valid))
 
         for epoch in range(self.start_epoch, self.epochs):
-            print("\nEpoch: {}/{} - LR: {:.6f}".format(epoch + 1, self.epochs, self.optimizer.param_groups[0]["lr"]))
+            logging.info("\nEpoch: {}/{} - LR: {:.6f}".format(epoch + 1, self.epochs, self.optimizer.param_groups[0]["lr"]))
 
             # train for 1 epoch
             train_loss, train_acc = self.train_one_epoch(epoch)
@@ -117,13 +118,13 @@ class Trainer:
                 self.counter = 0
                 msg2 += " [*]"
             msg = msg1 + msg2
-            print(msg.format(train_loss, train_acc, valid_loss, valid_acc))
+            logging.info(msg.format(train_loss, train_acc, valid_loss, valid_acc))
 
             # check for improvement
             if not is_best:
                 self.counter += 1
             if self.counter > self.config.train_patience:
-                print("[!] No improvement in a while, stopping training.")
+                logging.info("[!] No improvement in a while, stopping training.")
                 return
             self.best_valid_acc = max(valid_acc, self.best_valid_acc)
             self.save_checkpoint({
@@ -292,7 +293,7 @@ class Trainer:
         perc = (100.0 * correct) / (self.num_test)
         error = 100 - perc
 
-        print("[*] Test Acc: {}/{} ({:.2f}% - {:.2f}%)".format(
+        logging.info("[*] Test Acc: {}/{} ({:.2f}% - {:.2f}%)".format(
             correct, self.num_test, perc, error))
         return torch.cat(preds)
 
@@ -314,13 +315,13 @@ class Trainer:
         Args:
             best: if set to True, loads the best model.
         """
-        print("[*] Loading model from {}".format(self.config.ckpt_dir))
+        logging.info("[*] Loading model from {}".format(self.config.ckpt_dir))
 
         filename = self.config.model_name + "_ckpt.pth.tar"
         if best:
             filename = self.config.model_name + "_model_best.pth.tar"
         ckpt_path = os.path.join(self.config.ckpt_dir, filename)
-        print(os.path.abspath(ckpt_path))
+        logging.info(os.path.abspath(ckpt_path))
         ckpt = torch.load(ckpt_path, map_location="cpu")
 
         # load variables from checkpoint
@@ -330,11 +331,11 @@ class Trainer:
         self.optimizer.load_state_dict(ckpt["optim_state"])
 
         if best:
-            print(
+            logging.info(
                 "[*] Loaded {} checkpoint @ epoch {} "
                 "with best valid acc of {:.3f}".format(
                     filename, ckpt["epoch"], ckpt["best_valid_acc"]
                 )
             )
         else:
-            print("[*] Loaded {} checkpoint @ epoch {}".format(filename, ckpt["epoch"]))
+            logging.info("[*] Loaded {} checkpoint @ epoch {}".format(filename, ckpt["epoch"]))
