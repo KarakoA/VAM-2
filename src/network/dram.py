@@ -98,4 +98,10 @@ class RecurrentAttention(nn.Module):
         logging.debug(f"DRAM reset, l_0: {l_t}")
         l_t.requires_grad = True
 
+        l_t = torch.zeros(
+            (batch_size, 2),
+            dtype=torch.float,
+            device=device,
+            requires_grad=True)
+
         return l_t

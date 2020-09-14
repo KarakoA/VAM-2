@@ -67,7 +67,9 @@ class LocationNetwork(nn.Module):
         log_pi = torch.sum(log_pi, dim=1)
         logging.debug(f"log probs: {log_pi.shape}")
 
-        # bound between [-1, 1]
-        l_t = torch.clamp(l_t, -1, 1)
-
+        l_t = torch.zeros(
+            (h_t.shape[0],2),
+            dtype=torch.float,
+            device="cpu",
+            requires_grad=True)
         return log_pi, l_t
