@@ -196,17 +196,17 @@ class Trainer:
         baselines = []
         for t in range(self.num_glimpses - 1):
             # forward pass through model
-            h_t, l_t, b_t, p = self.model(x, l_t)
+            h_t, l_t, b_t, log_prob = self.model(x, l_t)
 
             # save locs for plotting
             locs.append(l_t[0:9])
 
             baselines.append(b_t)
-            log_pi.append(p)
+            log_pi.append(log_prob)
 
         # last iteration
-        h_t, l_t, b_t, log_probas, p = self.model(x, l_t, last=True)
-        log_pi.append(p)
+        h_t, l_t, b_t, log_probas, log_prob = self.model(x, l_t, last=True)
+        log_pi.append(log_prob)
         baselines.append(b_t)
 
         # save locs and images for plotting
@@ -219,6 +219,7 @@ class Trainer:
 
         # calculate reward
         predicted = torch.max(log_probas, 1)[1]
+        #TODO @Anton detaching this one -> no effect
         R = (predicted.detach() == y).float()
         R = R.unsqueeze(1).repeat(1, self.num_glimpses)
 

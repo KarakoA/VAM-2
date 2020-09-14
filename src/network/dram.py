@@ -5,8 +5,8 @@ import torch.nn as nn
 
 from network.action_network import ActionNetwork
 from network.baseline_network import BaselineNetwork
-from network.core_network import CoreNetwork
-from network.glimpse_network import GlimpseNetwork
+from simplified.core_network_simple import CoreNetwork
+from simplified.glimpse_network_simple import GlimpseNetwork
 from network.location_network import LocationNetwork
 
 
@@ -95,7 +95,7 @@ class RecurrentAttention(nn.Module):
         self.rnn.reset(batch_size=batch_size, device=device)
 
         l_t = torch.FloatTensor(batch_size, 2).uniform_(-1, 1).to(device)
-        logging.debug(f"DRAM reset, l_0: {l_t}")
         l_t.requires_grad = True
+        logging.debug(f"DRAM reset, l_0: {l_t}")
 
         return l_t

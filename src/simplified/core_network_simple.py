@@ -18,6 +18,8 @@ class CoreNetwork(nn.Module):
 
     def forward(self, g_t):
         h1 = self.i2h(g_t)
+        # TODO @Anton here no history, just empty named (check by detaching hidden state)
+        #TODO @Anton
         h2 = self.h2h(self.hidden_state)
         h_t = F.relu(h1 + h2)
         return h_t
