@@ -23,7 +23,7 @@ def run():
     trainer = Trainer(config, dloader)
 
     imgs,lbls = iter(dloader).next()
-    (loss, _, _, _, _) =  trainer.one_batch(imgs,lbls)
+    (loss, _, _, _, _, _ ,_ ,_) =  trainer.one_batch(imgs,lbls)
     #dict(trainer.model.named_parameters()
     #params =dict(trainer.model.named_parameters())
     params = {**{'inputs': imgs}, **dict(trainer.model.named_parameters())}

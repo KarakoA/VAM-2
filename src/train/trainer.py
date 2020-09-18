@@ -104,7 +104,7 @@ class Trainer:
             logging.info("\nEpoch: {}/{} - LR: {:.6f}".format(epoch + 1, self.epochs, self.optimizer.param_groups[0]["lr"]))
 
             # train for 1 epoch
-            train_loss, train_acc = self.train_one_epoch(epoch)
+            train_loss, train_acc, loss_act,loss_base,loss_reinf = self.train_one_epoch(epoch)
 
             # evaluate on validation set
             valid_loss, valid_acc = self.validate(epoch)
@@ -113,13 +113,13 @@ class Trainer:
             self.scheduler.step(-valid_acc)
 
             is_best = valid_acc > self.best_valid_acc
-            msg1 = "train loss: {:.3f} - train acc: {:.3f} "
+            msg1 = "train loss: {:.3f} - train acc: {:.3f} - action: {:.3f}, baseline: {:.3f} reinforce: {:.3f} "
             msg2 = "- val loss: {:.3f} - val acc: {:.3f}"
             if is_best:
                 self.counter = 0
                 msg2 += " [*]"
             msg = msg1 + msg2
-            logging.info(msg.format(train_loss, train_acc, valid_loss, valid_acc))
+            logging.info(msg.format(train_loss, train_acc, loss_act,loss_base,loss_reinf , valid_loss, valid_acc))
 
             # check for improvement
             if not is_best:
@@ -148,13 +148,16 @@ class Trainer:
         self.model.train()
         batch_time = AverageMeter()
         losses = AverageMeter()
+        losses_action = AverageMeter()
+        losses_reinforce = AverageMeter()
+        losses_baseline = AverageMeter()
         accs = AverageMeter()
 
         tic = time.time()
         with tqdm(total=self.num_train) as pbar:
             for i, (x, y) in enumerate(self.train_loader):
                 self.optimizer.zero_grad()
-                loss, acc, preds, locs, imgs = self.one_batch(x, y)
+                loss, acc, preds, locs, imgs, loss_action ,loss_baseline, loss_reinforce  = self.one_batch(x, y)
 
                 # compute gradients and update SGD
                 loss.backward()
@@ -162,6 +165,9 @@ class Trainer:
 
                 # store
                 losses.update(loss.item(), x.size()[0])
+                losses_reinforce.update(loss_reinforce.item(), x.size()[0])
+                losses_baseline.update(loss_baseline.item(), x.size()[0])
+                losses_action.update(loss_action.item(), x.size()[0])
                 accs.update(acc.item(), x.size()[0])
 
                 # measure elapsed time
@@ -182,7 +188,7 @@ class Trainer:
                     log_value("train_loss", losses.avg, iteration)
                     log_value("train_acc", accs.avg, iteration)
 
-            return losses.avg, accs.avg
+            return losses.avg, accs.avg, losses_action.avg,losses_baseline.avg,losses_reinforce.avg
 
     def one_batch(self, x, y):
         # initialize location vector and hidden state
@@ -233,6 +239,7 @@ class Trainer:
 
         # compute reinforce loss
 
+        # todo NEGATE reinforce loss?
         adjusted_reward = R - baselines.detach()
 
         adjusted_reward=adjusted_reward.repeat(1, 2).reshape(self.config.batch_size,-1,2).detach()
@@ -243,13 +250,13 @@ class Trainer:
 
         #TODO LOGITS directly?
         # sum up into a hybrid loss
-        loss = loss_action + loss_baseline + loss_reinforce * 0.01
+        loss = loss_action #+ loss_baseline - loss_reinforce
 
         # compute accuracy
         correct = (predicted == y).float()
         acc = 100 * (correct.sum() / len(y))
 
-        return loss, acc, predicted, locs, imgs
+        return loss, acc, predicted, locs, imgs, loss_action ,loss_baseline, loss_reinforce
 
     def __save_images_if_plotting(self, epoch, i, locs, imgs):
         # dump the glimpses and locs
@@ -268,7 +275,7 @@ class Trainer:
         # TODO check
         self.model.eval()
         for i, (x, y) in enumerate(self.valid_loader):
-            loss, acc, preds, locs, imgs = self.one_batch(x, y)
+            loss, acc, preds, locs, imgs, _,_,_ = self.one_batch(x, y)
 
             # store
             losses.update(loss.item(), x.size()[0])

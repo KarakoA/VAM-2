@@ -1231,3 +1231,251 @@ Epoch: 24/500 - LR: 0.000100
 train loss: 1.569 - train acc: 35.042 - val loss: 1.634 - val acc: 25.125
 
 Epoch: 25/500 - LR: 0.000100
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+
+[*] Train on 14400 samples, validate on 1600 samples
+
+Epoch: 1/500 - LR: 0.000100
+train loss: -0.744 - train acc: 24.917 - base: 1.387, action: 0.206 reinf: -2.337 - val loss: 0.711 - val acc: 26.188 [*]
+
+Epoch: 2/500 - LR: 0.000100
+train loss: 1.250 - train acc: 24.667 - base: 1.386, action: 0.186 reinf: -0.322 - val loss: 1.540 - val acc: 24.438
+
+Epoch: 3/500 - LR: 0.000100
+train loss: 1.403 - train acc: 25.771 - base: 1.386, action: 0.191 reinf: -0.175 - val loss: 1.583 - val acc: 24.250
+
+Epoch: 4/500 - LR: 0.000100
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+
+[*] Train on 14400 samples, validate on 1600 samples
+
+Epoch: 1/500 - LR: 0.000100
+train loss: -1.204 - train acc: 25.174 - action: 1.387, baseline: 0.214 reinforce: -2.805 - val loss: 0.639 - val acc: 25.062 [*]
+
+Epoch: 2/500 - LR: 0.000100
+train loss: 1.142 - train acc: 24.757 - action: 1.387, baseline: 0.187 reinforce: -0.431 - val loss: 1.160 - val acc: 24.375
+
+Epoch: 3/500 - LR: 0.000100
+train loss: 1.391 - train acc: 25.347 - action: 1.386, baseline: 0.189 reinforce: -0.185 - val loss: 1.792 - val acc: 23.438
+
+Epoch: 4/500 - LR: 0.000100
+train loss: 1.455 - train acc: 25.813 - action: 1.386, baseline: 0.192 reinforce: -0.123 - val loss: 1.828 - val acc: 24.938
+
+Epoch: 5/500 - LR: 0.000100
+train loss: 1.559 - train acc: 26.438 - action: 1.385, baseline: 0.195 reinforce: -0.021 - val loss: 1.848 - val acc: 26.188 [*]
+
+Epoch: 6/500 - LR: 0.000100
+train loss: 1.585 - train acc: 26.486 - action: 1.385, baseline: 0.195 reinforce: 0.005 - val loss: 1.257 - val acc: 26.562 [*]
+
+Epoch: 7/500 - LR: 0.000100
+train loss: 1.531 - train acc: 26.611 - action: 1.384, baseline: 0.196 reinforce: -0.049 - val loss: 1.665 - val acc: 26.812 [*]
+
+Epoch: 8/500 - LR: 0.000100
+train loss: 1.624 - train acc: 27.340 - action: 1.383, baseline: 0.199 reinforce: 0.042 - val loss: 1.285 - val acc: 27.750 [*]
+
+Epoch: 9/500 - LR: 0.000100
+train loss: 1.543 - train acc: 27.854 - action: 1.382, baseline: 0.202 reinforce: -0.041 - val loss: 1.574 - val acc: 27.750
+
+Epoch: 10/500 - LR: 0.000100
+train loss: 1.539 - train acc: 28.312 - action: 1.380, baseline: 0.203 reinforce: -0.045 - val loss: 1.520 - val acc: 27.688
+
+Epoch: 11/500 - LR: 0.000100
+train loss: 1.558 - train acc: 28.632 - action: 1.379, baseline: 0.205 reinforce: -0.026 - val loss: 1.739 - val acc: 27.438
+
+Epoch: 12/500 - LR: 0.000100
+train loss: 1.540 - train acc: 29.306 - action: 1.377, baseline: 0.208 reinforce: -0.045 - val loss: 2.414 - val acc: 24.250
+
+Epoch: 13/500 - LR: 0.000100
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+
+[*] Train on 14400 samples, validate on 1600 samples
+
+Epoch: 1/500 - LR: 0.000100
+train loss: 4.005 - train acc: 24.854 - action: 1.387, baseline: 0.207 reinforce: -2.412 - val loss: 2.303 - val acc: 24.250 [*]
+
+Epoch: 2/500 - LR: 0.000100
+train loss: 2.037 - train acc: 25.382 - action: 1.386, baseline: 0.190 reinforce: -0.460 - val loss: 1.586 - val acc: 24.875 [*]
+
+Epoch: 3/500 - LR: 0.000100
+train loss: 1.658 - train acc: 25.472 - action: 1.386, baseline: 0.190 reinforce: -0.081 - val loss: 1.591 - val acc: 25.000 [*]
+
+Epoch: 4/500 - LR: 0.000100
+train loss: 1.565 - train acc: 26.153 - action: 1.385, baseline: 0.193 reinforce: 0.014 - val loss: 1.299 - val acc: 24.750
+
+Epoch: 5/500 - LR: 0.000100
+train loss: 1.504 - train acc: 26.194 - action: 1.385, baseline: 0.194 reinforce: 0.074 - val loss: 1.881 - val acc: 25.688 [*]
+
+Epoch: 6/500 - LR: 0.000100
+train loss: 1.685 - train acc: 26.847 - action: 1.385, baseline: 0.197 reinforce: -0.103 - val loss: 0.877 - val acc: 24.312
+
+Epoch: 7/500 - LR: 0.000100
+train loss: 1.547 - train acc: 26.938 - action: 1.384, baseline: 0.197 reinforce: 0.034 - val loss: 1.362 - val acc: 25.312
+
+Epoch: 8/500 - LR: 0.000100
+train loss: 1.612 - train acc: 27.556 - action: 1.383, baseline: 0.200 reinforce: -0.029 - val loss: 1.645 - val acc: 26.312 [*]
+
+Epoch: 9/500 - LR: 0.000100
+train loss: 1.599 - train acc: 27.646 - action: 1.383, baseline: 0.200 reinforce: -0.016 - val loss: 1.221 - val acc: 24.438
+
+Epoch: 10/500 - LR: 0.000100
+train loss: 1.636 - train acc: 27.785 - action: 1.381, baseline: 0.201 reinforce: -0.054 - val loss: 1.027 - val acc: 26.188
+
+Epoch: 11/500 - LR: 0.000100
+train loss: 1.578 - train acc: 28.028 - action: 1.381, baseline: 0.202 reinforce: 0.005 - val loss: 1.326 - val acc: 24.875
+
+Epoch: 12/500 - LR: 0.000100
+train loss: 1.670 - train acc: 28.597 - action: 1.380, baseline: 0.205 reinforce: -0.085 - val loss: 1.228 - val acc: 26.250
+
+Epoch: 13/500 - LR: 0.000100
+train loss: 1.636 - train acc: 29.167 - action: 1.378, baseline: 0.207 reinforce: -0.052 - val loss: 0.491 - val acc: 23.625
+
+Epoch: 14/500 - LR: 0.000100
+train loss: 1.593 - train acc: 29.104 - action: 1.378, baseline: 0.206 reinforce: -0.009 - val loss: 0.996 - val acc: 25.750
+
+Epoch: 15/500 - LR: 0.000100
+train loss: 1.606 - train acc: 29.590 - action: 1.377, baseline: 0.208 reinforce: -0.021 - val loss: 0.969 - val acc: 26.562 [*]
+
+Epoch: 16/500 - LR: 0.000100
+train loss: 1.587 - train acc: 29.444 - action: 1.376, baseline: 0.208 reinforce: -0.003 - val loss: 0.825 - val acc: 25.000
+
+Epoch: 17/500 - LR: 0.000100
+train loss: 1.653 - train acc: 30.417 - action: 1.374, baseline: 0.212 reinforce: -0.068 - val loss: 0.963 - val acc: 26.312
+
+Epoch: 18/500 - LR: 0.000100
+train loss: 1.612 - train acc: 29.646 - action: 1.374, baseline: 0.209 reinforce: -0.029 - val loss: 1.171 - val acc: 26.375
+
+Epoch: 19/500 - LR: 0.000100
+train loss: 1.618 - train acc: 30.056 - action: 1.375, baseline: 0.210 reinforce: -0.033 - val loss: 1.068 - val acc: 25.375
+
+Epoch: 20/500 - LR: 0.000100
+train loss: 1.668 - train acc: 29.875 - action: 1.374, baseline: 0.210 reinforce: -0.085 - val loss: 0.656 - val acc: 24.375
+
+Epoch: 21/500 - LR: 0.000100
+train loss: 1.636 - train acc: 29.722 - action: 1.374, baseline: 0.209 reinforce: -0.053 - val loss: 0.512 - val acc: 24.188
+
+Epoch: 22/500 - LR: 0.000100
+train loss: 1.553 - train acc: 30.201 - action: 1.373, baseline: 0.211 reinforce: 0.031 - val loss: 0.748 - val acc: 24.750
+
+Epoch: 23/500 - LR: 0.000100
+train loss: 1.621 - train acc: 29.917 - action: 1.373, baseline: 0.210 reinforce: -0.038 - val loss: 1.157 - val acc: 27.188 [*]
+
+Epoch: 24/500 - LR: 0.000100
+train loss: 1.669 - train acc: 30.229 - action: 1.373, baseline: 0.211 reinforce: -0.085 - val loss: 0.845 - val acc: 25.625
+
+Epoch: 25/500 - LR: 0.000100
+train loss: 1.655 - train acc: 29.979 - action: 1.375, baseline: 0.210 reinforce: -0.070 - val loss: 0.937 - val acc: 25.500
+
+Epoch: 26/500 - LR: 0.000100
+train loss: 1.590 - train acc: 29.444 - action: 1.375, baseline: 0.208 reinforce: -0.007 - val loss: 0.954 - val acc: 25.125
+
+Epoch: 27/500 - LR: 0.000100
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+
+[*] Train on 14400 samples, validate on 1600 samples
+
+Epoch: 1/500 - LR: 0.000100
+train loss: 1.387 - train acc: 25.167 - action: 1.387, baseline: 0.292 reinforce: -6.082 - val loss: 1.387 - val acc: 23.938 [*]
+
+Epoch: 2/500 - LR: 0.000100
+train loss: 1.386 - train acc: 25.646 - action: 1.386, baseline: 0.295 reinforce: -6.117 - val loss: 1.387 - val acc: 24.812 [*]
+
+Epoch: 3/500 - LR: 0.000100
+train loss: 1.386 - train acc: 25.681 - action: 1.386, baseline: 0.296 reinforce: -6.108 - val loss: 1.387 - val acc: 24.688
+
+Epoch: 4/500 - LR: 0.000100
+train loss: 1.386 - train acc: 25.868 - action: 1.386, baseline: 0.298 reinforce: -6.180 - val loss: 1.387 - val acc: 25.312 [*]
+
+Epoch: 5/500 - LR: 0.000100
+train loss: 1.384 - train acc: 27.326 - action: 1.384, baseline: 0.317 reinforce: -6.514 - val loss: 1.386 - val acc: 27.000 [*]
+
+Epoch: 6/500 - LR: 0.000100
+train loss: 1.384 - train acc: 27.576 - action: 1.384, baseline: 0.322 reinforce: -6.621 - val loss: 1.389 - val acc: 26.062
+
+Epoch: 7/500 - LR: 0.000100
+train loss: 1.382 - train acc: 27.882 - action: 1.382, baseline: 0.326 reinforce: -6.679 - val loss: 1.388 - val acc: 25.500
+
+Epoch: 8/500 - LR: 0.000100
+train loss: 1.381 - train acc: 28.319 - action: 1.381, baseline: 0.335 reinforce: -6.881 - val loss: 1.388 - val acc: 25.750
+
+Epoch: 9/500 - LR: 0.000100
+train loss: 1.379 - train acc: 28.868 - action: 1.379, baseline: 0.345 reinforce: -7.068 - val loss: 1.389 - val acc: 25.562
+
+Epoch: 10/500 - LR: 0.000100
+train loss: 1.377 - train acc: 29.181 - action: 1.377, baseline: 0.350 reinforce: -7.143 - val loss: 1.395 - val acc: 25.688
+
+Epoch: 11/500 - LR: 0.000100
+train loss: 1.374 - train acc: 30.243 - action: 1.374, baseline: 0.360 reinforce: -7.306 - val loss: 1.396 - val acc: 24.938
+
+Epoch: 12/500 - LR: 0.000100
