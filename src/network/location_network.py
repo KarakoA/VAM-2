@@ -42,32 +42,24 @@ class LocationNetwork(nn.Module):
         self.std = std
 
         hid_size = input_size // 2
-        self.fc = nn.Linear(input_size, hid_size)
-        self.fc_lt = nn.Linear(hid_size, output_size)
+        self.fc = nn.Linear(input_size, output_size)
+        #self.fc_lt = nn.Linear(hid_size, output_size)
         logging.info(self)
 
     def forward(self, h_t):
         logging.debug("\n\nLocationNetwork")
         logging.debug(f"Input:     {h_t.shape}")
         # compute mean
-        feat = F.relu(self.fc(h_t.detach()))
-        logging.debug(f"fc+relu:   {feat.shape}")
-        mu = torch.tanh(self.fc_lt(feat))
-        logging.debug(f"fc2+tanh:  {mu.shape}")
-        # reparametrization trick
-        l_t = torch.distributions.Normal(mu, self.std).rsample()
-        l_t = l_t.detach()
-        logging.debug(f"l_t:       {l_t.shape}")
-        log_pi = Normal(mu, self.std).log_prob(l_t)
-        logging.debug(f"log probs: {log_pi.shape}")
-        # we assume both dimensions are independent
-        # 1. pdf of the joint is the product of the pdfs
-        # 2. log of the product is the sum of the logs
+        mean = torch.tanh(self.fc(h_t.detach()))
+        logging.debug(f"fc2+tanh:  {mean.shape}")
 
-        log_pi = torch.sum(log_pi, dim=1)
-        logging.debug(f"log probs: {log_pi.shape}")
+        l_t = torch.distributions.Normal(mean, self.std).rsample().detach()
 
+        if torch.any(l_t < -1):
+            print("ASDF")
+            if torch.any(l_t > 1):
+                print("ASDF")
         # bound between [-1, 1]
         l_t = torch.clamp(l_t, -1, 1)
 
-        return log_pi, l_t
+        return mean, l_t

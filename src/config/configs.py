@@ -21,7 +21,7 @@ class Config():
 
         # ETC params
         self.valid_size      = 0.1       # Proportion of training set used for validation
-        self.batch_size      = 100       # Num of images in each batch of data
+        self.batch_size      = 25       # Num of images in each batch of data
         self.num_workers     = 4         # Num of subprocesses to use for data loading
         self.shuffle         = True      # Whether to shuffle the train and valid indices
         self.show_sample     = False     # Whether to visualize a sample grid of the data
@@ -32,7 +32,7 @@ class Config():
         self.weight_decay    = 1e-5      # Weight decay for regularization
         self.momentum        = 0.5       # Nesterov momentum value TODO not used
         self.epochs          = 500       # Num of epochs to train for
-        self.init_lr         = 3e-4      # Initial learning rate value
+        self.init_lr         = 1e-4      # Initial learning rate value
         self.lr_patience     = 20        # Number of epochs to wait before reducing lr
         self.train_patience  = 150       # Number of epochs to wait before stopping train
 

@@ -5,8 +5,8 @@ import torch.nn as nn
 
 from network.action_network import ActionNetwork
 from network.baseline_network import BaselineNetwork
-from network.core_network import CoreNetwork
-from network.glimpse_network import GlimpseNetwork
+from simplified.core_network_simple import CoreNetwork
+from simplified.glimpse_network_simple import GlimpseNetwork
 from network.location_network import LocationNetwork
 
 
@@ -75,7 +75,7 @@ class RecurrentAttention(nn.Module):
                 current timestep `t`.
             b_t: a vector of length (B,). The baseline for the
                 current time step `t`.
-            log_probas: a 2D tensor of shape (B, num_classes). The
+            probabilities: a 2D tensor of shape (B, num_classes). The
                 output log probability vector over the classes.
             log_pi: a vector of length (B,).
         """
@@ -85,8 +85,8 @@ class RecurrentAttention(nn.Module):
         b_t = self.baseliner(h_t).squeeze()
 
         if last:
-            log_probas = self.classifier(h_t)
-            return h_t, l_t, b_t, log_probas, log_pi
+            probabilities = self.classifier(h_t)
+            return h_t, l_t, b_t, probabilities, log_pi
 
         return h_t, l_t, b_t, log_pi
 

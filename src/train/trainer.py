@@ -6,6 +6,7 @@ import pickle
 
 import torch
 import torch.nn.functional as F
+from torch.distributions import Normal
 
 from tqdm import tqdm
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -192,46 +193,55 @@ class Trainer:
 
         imgs = []
         locs = []
-        log_pi = []
+        means = []
         baselines = []
+        locations = []
         for t in range(self.num_glimpses - 1):
             # forward pass through model
-            h_t, l_t, b_t, p = self.model(x, l_t)
+            h_t, l_t, b_t, mean_t = self.model(x, l_t)
 
             # save locs for plotting
             locs.append(l_t[0:9])
-
+            locations.append(l_t)
             baselines.append(b_t)
-            log_pi.append(p)
+            means.append(mean_t)
 
         # last iteration
-        h_t, l_t, b_t, log_probas, p = self.model(x, l_t, last=True)
-        log_pi.append(p)
-        baselines.append(b_t)
+        _, _, _, probabilities, _ = self.model(x, l_t, last=True)
 
         # save locs and images for plotting
         locs.append(l_t[0:9])
         imgs.append(x[0:9])
 
         # convert list to tensors and reshape
+        #TODO verify the transpoe
         baselines = torch.stack(baselines).transpose(1, 0)
-        log_pi = torch.stack(log_pi).transpose(1, 0)
+        means = torch.stack(means).transpose(1, 0)
+        locations = torch.stack(locations).transpose(1, 0)
 
         # calculate reward
-        predicted = torch.max(log_probas, 1)[1]
+        predicted = torch.argmax(probabilities, 1)
         R = (predicted.detach() == y).float()
-        R = R.unsqueeze(1).repeat(1, self.num_glimpses)
+        # either 1 (if correct) or 0
+        R = R.unsqueeze(1).repeat(1, self.num_glimpses-1)
 
         # compute losses for differentiable modules
-        loss_action = F.nll_loss(log_probas, y)
+        # smaller, better, no need invert for nll
+        loss_action = F.nll_loss(probabilities, y)
+
         loss_baseline = F.mse_loss(baselines, R)
 
         # compute reinforce loss
-        # summed over timesteps and averaged across batch
+
         adjusted_reward = R - baselines.detach()
-        loss_reinforce = torch.sum(-log_pi * adjusted_reward, dim=1)
+
+        adjusted_reward=adjusted_reward.repeat(1, 2).reshape(self.config.batch_size,-1,2).detach()
+        probs = Normal(means, self.model.locator.std).log_prob(locations)
+        # summed over timesteps and averaged across batch
+        loss_reinforce = torch.sum(-probs * adjusted_reward, dim=1).sum(dim = 1)
         loss_reinforce = torch.mean(loss_reinforce, dim=0)
 
+        #TODO LOGITS directly?
         # sum up into a hybrid loss
         loss = loss_action + loss_baseline + loss_reinforce * 0.01
 
