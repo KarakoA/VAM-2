@@ -61,12 +61,10 @@ class GlimpseNetwork(nn.Module):
         logging.debug(f"Flatten:    {h.shape}")
 
         # fully connected layers
-        h = self.fc1(h)
+        h = F.relu(self.fc1(h))
         logging.debug(f"Fc1:        {h.shape}")
         h = self.fc2(h)
         logging.debug(f"Fc2:        {h.shape}")
-        h = F.relu(h)
-        logging.debug(f"Bn1 ReLu:   {h.shape}")
 
         # where
         logging.debug("#### Where ####")
@@ -74,9 +72,8 @@ class GlimpseNetwork(nn.Module):
         l_t_prev = l_t_prev.view(l_t_prev.size(0), -1)
         logging.debug(f"Input:         {l_t_prev.shape}")
 
-        l = self.loc_fc1(l_t_prev)
+        l = F.relu(self.loc_fc1(l_t_prev))
         logging.debug(f"Fc1(loc):      {l.shape}")
-        l = F.relu(l)
         logging.debug(f"Fc1(loc) ReLu: {l.shape}")
         l = self.loc_fc2(l)
         logging.debug(f"Fc2(loc):      {l.shape}")
