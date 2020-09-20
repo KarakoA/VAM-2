@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from config.configs import Config
-from simplified.glimpse_sensor_simple import Retina
+from network.glimpse_sensor import Retina
 
 
 class GlimpseNetwork(nn.Module):

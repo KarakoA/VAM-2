@@ -50,5 +50,13 @@ def run():
     print(R)
     print(R.repeat(1, 2).reshape(3,4,2))
    #adjusted_reward.repeat(1, 2).reshape(self.config.batch_size, -1, 2).detach()
+
+
+
 if __name__ == '__main__':
-    run()
+    a = torch.arange(0, 9).reshape((3, 3))
+    b = torch.tensor(((0,0,0),(1,1,1),(0,0,0)))
+    print(a)
+    print(b)
+    print(a * b)
+    #run()

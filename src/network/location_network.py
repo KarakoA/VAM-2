@@ -55,10 +55,15 @@ class LocationNetwork(nn.Module):
 
         l_t = torch.distributions.Normal(mean, self.std).rsample().detach()
 
-        if torch.any(l_t < -1):
-            print("ASDF")
-            if torch.any(l_t > 1):
-                print("ASDF")
+        #l_t = torch.zeros(25, 2).detach()
+        #if torch.any(l_t < -1):
+            #print("MEAN")
+            #print(mean)
+            #print("L_T")
+            #print(l_t)
+        ##if torch.any(l_t > 1):
+        #    print("MEAN")
+        #    print(mean)
         # bound between [-1, 1]
         l_t = torch.clamp(l_t, -1, 1)
 

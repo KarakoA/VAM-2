@@ -9,7 +9,7 @@ class Config():
         self.glimpse_hidden  = 128       # hidden size of glimpse fc
 
         # core network params
-        self.num_glimpses    = 7         # Num of glimpses, i.e. BPTT iterations
+        self.num_glimpses    = 6         # Num of glimpses, i.e. BPTT iterations
         self.hidden_size     = 256       # hidden size of rnn
 
         # reinforce params
@@ -27,13 +27,13 @@ class Config():
         self.show_sample     = False     # Whether to visualize a sample grid of the data
 
         # training params
-        self.is_train        = True      # Whether to train(true) or test the model
-        self.resume          = False     # Whether to resume training from checkpoint
+        self.is_train        = False      # Whether to train(true) or test the model
+        self.resume          = True     # Whether to resume training from checkpoint
         self.weight_decay    = 1e-5      # Weight decay for regularization
         self.momentum        = 0.5       # Nesterov momentum value TODO not used
         self.epochs          = 500       # Num of epochs to train for
         self.init_lr         = 1e-4      # Initial learning rate value
-        self.lr_patience     = 20        # Number of epochs to wait before reducing lr
+        self.lr_patience     = 200        # Number of epochs to wait before reducing lr
         self.train_patience  = 150       # Number of epochs to wait before stopping train
 
         # other params

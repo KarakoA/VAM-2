@@ -77,24 +77,25 @@ class RecurrentAttention(nn.Module):
                 current time step `t`.
             probabilities: a 2D tensor of shape (B, num_classes). The
                 output log probability vector over the classes.
-            log_pi: a vector of length (B,).
+            mean_t: a vector of length (B,).
         """
         g_t = self.sensor(x, l_t_prev)
         h_t = self.rnn(g_t)
-        log_pi, l_t = self.locator(h_t)
+        mean_t, l_t = self.locator(h_t)
         b_t = self.baseliner(h_t).squeeze()
 
         if last:
             probabilities = self.classifier(h_t)
-            return h_t, l_t, b_t, probabilities, log_pi
+            return h_t, l_t, b_t, probabilities, mean_t
 
-        return h_t, l_t, b_t, log_pi
+        return h_t, l_t, b_t, mean_t
 
     def reset(self, batch_size, device):
         # h_t maintained by rnn itself
         self.rnn.reset(batch_size=batch_size, device=device)
 
-        l_t = torch.FloatTensor(batch_size, 2).uniform_(-1, 1).to(device)
+        l_t = torch.zeros(batch_size, 2).to(device)
+        #l_t = torch.FloatTensor(batch_size, 2).uniform_(-1, 1).to(device)
         logging.debug(f"DRAM reset, l_0: {l_t}")
         l_t.requires_grad = True
 

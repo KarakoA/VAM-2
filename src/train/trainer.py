@@ -156,8 +156,10 @@ class Trainer:
         tic = time.time()
         with tqdm(total=self.num_train) as pbar:
             for i, (x, y) in enumerate(self.train_loader):
-                self.optimizer.zero_grad()
+
                 loss, acc, preds, locs, imgs, loss_action ,loss_baseline, loss_reinforce  = self.one_batch(x, y)
+
+                self.optimizer.zero_grad()
 
                 # compute gradients and update SGD
                 loss.backward()
@@ -250,7 +252,8 @@ class Trainer:
 
         #TODO LOGITS directly?
         # sum up into a hybrid loss
-        loss = loss_action #+ loss_baseline - loss_reinforce
+        #TODO super high loss with other sensor
+        loss = loss_action + loss_baseline + loss_reinforce * 0.01
 
         # compute accuracy
         correct = (predicted == y).float()
@@ -303,7 +306,7 @@ class Trainer:
         self.model.eval()
 
         for i, (x, y) in enumerate(self.test_loader):
-            loss, acc, predictions, locs, imgs = self.one_batch(x, y)
+            loss, acc, predictions, locs, imgs,_,_,_ = self.one_batch(x, y)
 
             correct += sum(predictions == y)
             preds.append(predictions)
