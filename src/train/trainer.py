@@ -230,11 +230,11 @@ class Trainer:
         # calculate reward
         predicted = torch.argmax(probabilities, 1)
         R = (predicted.detach() == y).float()
-        print(f"Act:  {np.bincount(y.numpy())}")
-        print(f"Pred: {np.bincount(predicted.numpy())}")
-        print(f"Base: {baselines.sum(dim=0)}")
-        print(f"R:     {R.sum()}")
-        print("---------------")
+        #print(f"Act:  {np.bincount(y.numpy())}")
+        #print(f"Pred: {np.bincount(predicted.numpy())}")
+        #print(f"Base: {baselines.sum(dim=0)}")
+        #print(f"R:     {R.sum()}")
+        #print("---------------")
         # either 1 (if correct) or 0
         R = R.unsqueeze(1).repeat(1, self.num_glimpses-1)
 
@@ -258,7 +258,7 @@ class Trainer:
         #TODO LOGITS directly?
         # sum up into a hybrid loss
         #TODO super high loss with other sensor
-        loss = loss_action + loss_baseline + loss_reinforce * 0.01
+        loss = loss_action + loss_baseline + loss_reinforce * 1
 
         # compute accuracy
         correct = (predicted == y).float()

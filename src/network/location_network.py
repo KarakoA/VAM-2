@@ -53,7 +53,11 @@ class LocationNetwork(nn.Module):
         mean = torch.tanh(self.fc(h_t.detach()))
         logging.debug(f"fc2+tanh:  {mean.shape}")
 
-        l_t = torch.distributions.Normal(mean, self.std).rsample().detach()
+        if self.training:
+            l_t = torch.distributions.Normal(mean, self.std).rsample().detach()
+        #eval, not stochastic
+        else:
+            l_t = mean
 
         #l_t = torch.zeros(25, 2).detach()
         #if torch.any(l_t < -1):
