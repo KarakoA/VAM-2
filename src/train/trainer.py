@@ -15,7 +15,7 @@ from tensorboard_logger import configure, log_value
 from network.dram import RecurrentAttention
 from utils.utils import AverageMeter
 
-
+import numpy as np
 class Trainer:
     """A Recurrent Attention Model trainer.
 
@@ -230,6 +230,11 @@ class Trainer:
         # calculate reward
         predicted = torch.argmax(probabilities, 1)
         R = (predicted.detach() == y).float()
+        print(f"Act:  {np.bincount(y.numpy())}")
+        print(f"Pred: {np.bincount(predicted.numpy())}")
+        print(f"Base: {baselines.sum(dim=0)}")
+        print(f"R:     {R.sum()}")
+        print("---------------")
         # either 1 (if correct) or 0
         R = R.unsqueeze(1).repeat(1, self.num_glimpses-1)
 

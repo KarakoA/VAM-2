@@ -1479,3 +1479,71 @@ Epoch: 11/500 - LR: 0.000100
 train loss: 1.374 - train acc: 30.243 - action: 1.374, baseline: 0.360 reinforce: -7.306 - val loss: 1.396 - val acc: 24.938
 
 Epoch: 12/500 - LR: 0.000100
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+[*] Loading model from ./ckpt
+/Users/KarakoA/Documents/Personal/RAM/VAM-2/src/ckpt/ram_6_8x8_8_model_best.pth.tar
+[*] Loaded ram_6_8x8_8_model_best.pth.tar checkpoint @ epoch 79 with best valid acc of 92.438
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+
+[*] Train on 14400 samples, validate on 1600 samples
+
+Epoch: 1/500 - LR: 0.000100
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+
+[*] Train on 14400 samples, validate on 1600 samples
+
+Epoch: 1/500 - LR: 0.000100
