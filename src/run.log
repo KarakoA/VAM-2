@@ -3355,3 +3355,49 @@ train loss: 0.009 - train acc: 99.778 - action: 0.005, baseline: 0.002 reinforce
 Epoch: 382/1000 - LR: 0.000010
 train loss: 0.007 - train acc: 99.771 - action: 0.006, baseline: 0.002 reinforce: -0.002 - val loss: 0.176 - val acc: 98.812
 [!] No improvement in a while, stopping training.
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+[*] Loading model from ./ckpt
+/Users/KarakoA/Documents/Personal/RAM/VAM-2/src/ckpt/ram_6_8x8_8_model_best.pth.tar
+[*] Loaded ram_6_8x8_8_model_best.pth.tar checkpoint @ epoch 281 with best valid acc of 99.500
+[*] Test Acc: 1556/1600 (97.25% - 2.75%)
+GlimpseNetwork(
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=256, bias=True)
+  (loc_fc1): Linear(in_features=2, out_features=128, bias=True)
+  (loc_fc2): Linear(in_features=128, out_features=256, bias=True)
+)
+CoreNetwork(
+  (i2h): Linear(in_features=256, out_features=256, bias=True)
+  (h2h): Linear(in_features=256, out_features=256, bias=True)
+)
+LocationNetwork(
+  (fc): Linear(in_features=256, out_features=2, bias=True)
+)
+ActionNetwork(
+  (fc): Linear(in_features=256, out_features=4, bias=True)
+)
+BaselineNetwork(
+  (fc): Linear(in_features=256, out_features=1, bias=True)
+)
+[*] Loading model from ./ckpt
+/Users/KarakoA/Documents/Personal/RAM/VAM-2/src/ckpt/ram_6_8x8_8_model_best.pth.tar
+[*] Loaded ram_6_8x8_8_model_best.pth.tar checkpoint @ epoch 281 with best valid acc of 99.500
+[*] Test Acc: 1556/1600 (97.25% - 2.75%)

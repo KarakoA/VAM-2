@@ -27,7 +27,7 @@ class Config():
         self.show_sample     = False     # Whether to visualize a sample grid of the data
 
         # training params
-        self.is_train        = True      # Whether to train(true) or test the model
+        self.is_train        = False      # Whether to train(true) or test the model
         self.resume          = True     # Whether to resume training from checkpoint
         self.weight_decay    = 1e-5      # Weight decay for regularization
         self.momentum        = 0.5       # Nesterov momentum value TODO not used
