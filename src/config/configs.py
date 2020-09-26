@@ -13,7 +13,7 @@ class Config():
         self.hidden_size     = 256       # hidden size of rnn
 
         # reinforce params
-        self.std             = 0.05      # gaussian policy standard deviation
+        self.std             = 0.11      # gaussian policy standard deviation
         self.M               = 1         # Monte Carlo sampling for valid and test sets
 
         # action network
@@ -28,13 +28,13 @@ class Config():
 
         # training params
         self.is_train        = True      # Whether to train(true) or test the model
-        self.resume          = False     # Whether to resume training from checkpoint
+        self.resume          = True     # Whether to resume training from checkpoint
         self.weight_decay    = 1e-5      # Weight decay for regularization
         self.momentum        = 0.5       # Nesterov momentum value TODO not used
-        self.epochs          = 500       # Num of epochs to train for
+        self.epochs          = 1000       # Num of epochs to train for
         self.init_lr         = 1e-3      # Initial learning rate value
-        self.lr_patience     = 200        # Number of epochs to wait before reducing lr
-        self.train_patience  = 150       # Number of epochs to wait before stopping train
+        self.lr_patience     = 50        # Number of epochs to wait before reducing lr
+        self.train_patience  = 100       # Number of epochs to wait before stopping train
 
         # other params
         self.use_gpu         = True      # Whether to run on the GPU
