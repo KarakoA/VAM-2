@@ -27,7 +27,7 @@ import matplotlib.animation as animation
 def run():
     config = Config()
     plot_dir = "./plots/" + config.model_name + "/"
-    epoch = 63
+    epoch = 281
     # read in pickle files
     images = pickle.load(open(plot_dir + "g_{}.p".format(epoch), "rb"))
     locations = pickle.load(open(plot_dir + "l_{}.p".format(epoch), "rb"))
@@ -40,9 +40,8 @@ def run():
     img_shape = images.shape[1]
     # denormalize coordinates
     coords = [denormalize(img_shape, l) for l in locations]
-    print(num_cols)
     fig, axs = plt.subplots(nrows=1, ncols=num_cols)
-    fig.set_dpi(100)
+    fig.set_dpi(400)
     # plot base image
     for j, ax in enumerate(axs.flat):
         ax.imshow(images[j], cmap="Greys_r")
@@ -62,13 +61,13 @@ def run():
 
             ax.add_patch(rect)
 
+    plt.show()
                 # animate
     anim = animation.FuncAnimation( fig, updateData, frames=num_anims, interval=500, repeat=True )
-    #from IPython.display import HTML HTML(anim.to_html5_video())
-    #anim.to_html5_video()
     # save as mp4
     name = plot_dir + "epoch_{}.mp4".format(epoch)
     anim.save(name, extra_args=["-vcodec", "h264", "-pix_fmt", "yuv420p"])
+    print(name)
     os.system("start "+name)
 
 if __name__ == '__main__':

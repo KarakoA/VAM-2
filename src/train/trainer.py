@@ -6,6 +6,7 @@ import pickle
 
 import torch
 import torch.nn.functional as F
+from torch.distributions import Normal
 
 from tqdm import tqdm
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -14,7 +15,7 @@ from tensorboard_logger import configure, log_value
 from network.dram import RecurrentAttention
 from utils.utils import AverageMeter
 
-
+import numpy as np
 class Trainer:
     """A Recurrent Attention Model trainer.
 
@@ -103,7 +104,7 @@ class Trainer:
             logging.info("\nEpoch: {}/{} - LR: {:.6f}".format(epoch + 1, self.epochs, self.optimizer.param_groups[0]["lr"]))
 
             # train for 1 epoch
-            train_loss, train_acc = self.train_one_epoch(epoch)
+            train_loss, train_acc, loss_act,loss_base,loss_reinf = self.train_one_epoch(epoch)
 
             # evaluate on validation set
             valid_loss, valid_acc = self.validate(epoch)
@@ -112,13 +113,13 @@ class Trainer:
             self.scheduler.step(-valid_acc)
 
             is_best = valid_acc > self.best_valid_acc
-            msg1 = "train loss: {:.3f} - train acc: {:.3f} "
+            msg1 = "train loss: {:.3f} - train acc: {:.3f} - action: {:.3f}, baseline: {:.3f} reinforce: {:.3f} "
             msg2 = "- val loss: {:.3f} - val acc: {:.3f}"
             if is_best:
                 self.counter = 0
                 msg2 += " [*]"
             msg = msg1 + msg2
-            logging.info(msg.format(train_loss, train_acc, valid_loss, valid_acc))
+            logging.info(msg.format(train_loss, train_acc, loss_act,loss_base,loss_reinf , valid_loss, valid_acc))
 
             # check for improvement
             if not is_best:
@@ -147,13 +148,18 @@ class Trainer:
         self.model.train()
         batch_time = AverageMeter()
         losses = AverageMeter()
+        losses_action = AverageMeter()
+        losses_reinforce = AverageMeter()
+        losses_baseline = AverageMeter()
         accs = AverageMeter()
 
         tic = time.time()
         with tqdm(total=self.num_train) as pbar:
             for i, (x, y) in enumerate(self.train_loader):
+
+                loss, acc, preds, locs, imgs, loss_action ,loss_baseline, loss_reinforce  = self.one_batch(x, y)
+
                 self.optimizer.zero_grad()
-                loss, acc, preds, locs, imgs = self.one_batch(x, y)
 
                 # compute gradients and update SGD
                 loss.backward()
@@ -161,6 +167,9 @@ class Trainer:
 
                 # store
                 losses.update(loss.item(), x.size()[0])
+                losses_reinforce.update(loss_reinforce.item(), x.size()[0])
+                losses_baseline.update(loss_baseline.item(), x.size()[0])
+                losses_action.update(loss_action.item(), x.size()[0])
                 accs.update(acc.item(), x.size()[0])
 
                 # measure elapsed time
@@ -181,7 +190,7 @@ class Trainer:
                     log_value("train_loss", losses.avg, iteration)
                     log_value("train_acc", accs.avg, iteration)
 
-            return losses.avg, accs.avg
+            return losses.avg, accs.avg, losses_action.avg,losses_baseline.avg,losses_reinforce.avg
 
     def one_batch(self, x, y):
         # initialize location vector and hidden state
@@ -192,54 +201,67 @@ class Trainer:
 
         imgs = []
         locs = []
-        log_pi = []
+        means = []
         baselines = []
+        locations = []
         for t in range(self.num_glimpses - 1):
             # forward pass through model
-            h_t, l_t, b_t, p = self.model(x, l_t)
+            h_t, l_t, b_t, mean_t = self.model(x, l_t)
 
             # save locs for plotting
             locs.append(l_t[0:9])
-
+            locations.append(l_t)
             baselines.append(b_t)
-            log_pi.append(p)
+            means.append(mean_t)
 
         # last iteration
-        h_t, l_t, b_t, log_probas, p = self.model(x, l_t, last=True)
-        log_pi.append(p)
-        baselines.append(b_t)
+        _, _, _, probabilities, _ = self.model(x, l_t, last=True)
 
         # save locs and images for plotting
         locs.append(l_t[0:9])
         imgs.append(x[0:9])
 
         # convert list to tensors and reshape
+        #TODO verify the transpoe
         baselines = torch.stack(baselines).transpose(1, 0)
-        log_pi = torch.stack(log_pi).transpose(1, 0)
+        means = torch.stack(means).transpose(1, 0)
+        locations = torch.stack(locations).transpose(1, 0)
 
         # calculate reward
-        predicted = torch.max(log_probas, 1)[1]
+        predicted = torch.argmax(probabilities, 1)
         R = (predicted.detach() == y).float()
-        R = R.unsqueeze(1).repeat(1, self.num_glimpses)
+        #print(f"Act:  {np.bincount(y.numpy())}")
+        #print(f"Pred: {np.bincount(predicted.numpy())}")
+        #print(f"Base: {baselines.sum(dim=0)}")
+        #print(f"R:     {R.sum()}")
+        #print("---------------")
+        # either 1 (if correct) or 0
+        R = R.unsqueeze(1).repeat(1, self.num_glimpses-1)
 
         # compute losses for differentiable modules
-        loss_action = F.nll_loss(log_probas, y)
+        # smaller, better, no need invert for nll
+        loss_action = F.nll_loss(probabilities, y)
+
         loss_baseline = F.mse_loss(baselines, R)
 
         # compute reinforce loss
-        # summed over timesteps and averaged across batch
+
+        # todo NEGATE reinforce loss?
         adjusted_reward = R - baselines.detach()
-        loss_reinforce = torch.sum(-log_pi * adjusted_reward, dim=1)
+
+        adjusted_reward=adjusted_reward.repeat(1, 2).reshape(self.config.batch_size,-1,2).detach()
+        probs = Normal(means, self.model.locator.std).log_prob(locations)
+        # summed over timesteps and averaged across batch
+        loss_reinforce = torch.sum(-probs * adjusted_reward, dim=1).sum(dim = 1)
         loss_reinforce = torch.mean(loss_reinforce, dim=0)
 
-        # sum up into a hybrid loss
-        loss = loss_action + loss_baseline + loss_reinforce * 0.01
+        loss = loss_action + loss_baseline + loss_reinforce * 1
 
         # compute accuracy
         correct = (predicted == y).float()
         acc = 100 * (correct.sum() / len(y))
 
-        return loss, acc, predicted, locs, imgs
+        return loss, acc, predicted, locs, imgs, loss_action ,loss_baseline, loss_reinforce
 
     def __save_images_if_plotting(self, epoch, i, locs, imgs):
         # dump the glimpses and locs
@@ -258,7 +280,7 @@ class Trainer:
         # TODO check
         self.model.eval()
         for i, (x, y) in enumerate(self.valid_loader):
-            loss, acc, preds, locs, imgs = self.one_batch(x, y)
+            loss, acc, preds, locs, imgs, _,_,_ = self.one_batch(x, y)
 
             # store
             losses.update(loss.item(), x.size()[0])
@@ -286,7 +308,7 @@ class Trainer:
         self.model.eval()
 
         for i, (x, y) in enumerate(self.test_loader):
-            loss, acc, predictions, locs, imgs = self.one_batch(x, y)
+            loss, acc, predictions, locs, imgs,_,_,_ = self.one_batch(x, y)
 
             correct += sum(predictions == y)
             preds.append(predictions)

@@ -12,7 +12,8 @@ from train.trainer import Trainer
 def run():
     config = Config()
     config.is_train = False
-
+    config.batch_size = 3
+    config.num_glimpses = 5
     if config.use_gpu:
         torch.cuda.manual_seed(config.random_seed)
 
@@ -22,7 +23,7 @@ def run():
     trainer = Trainer(config, dloader)
 
     imgs,lbls = iter(dloader).next()
-    (loss, _, _, _, _) =  trainer.one_batch(imgs,lbls)
+    (loss, _, _, _, _, _ ,_ ,_) =  trainer.one_batch(imgs,lbls)
     #dict(trainer.model.named_parameters()
     #params =dict(trainer.model.named_parameters())
     params = {**{'inputs': imgs}, **dict(trainer.model.named_parameters())}

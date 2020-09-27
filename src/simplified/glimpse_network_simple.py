@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from config.configs import Config
-from simplified.glimpse_sensor_simple import Retina
+from network.glimpse_sensor import Retina
 
 
 class GlimpseNetwork(nn.Module):
@@ -65,6 +65,8 @@ class GlimpseNetwork(nn.Module):
         logging.debug(f"Fc1:        {h.shape}")
         h = self.fc2(h)
         logging.debug(f"Fc2:        {h.shape}")
+        h = F.relu(h)
+        logging.debug(f"Bn1 ReLu:   {h.shape}")
 
         # where
         logging.debug("#### Where ####")
@@ -74,7 +76,6 @@ class GlimpseNetwork(nn.Module):
 
         l = F.relu(self.loc_fc1(l_t_prev))
         logging.debug(f"Fc1(loc):      {l.shape}")
-        logging.debug(f"Fc1(loc) ReLu: {l.shape}")
         l = self.loc_fc2(l)
         logging.debug(f"Fc2(loc):      {l.shape}")
         logging.debug("#### Combined ####")

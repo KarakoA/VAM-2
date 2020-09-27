@@ -1,7 +1,7 @@
 import logging
 
 import torch.nn as nn
-
+import torch.nn.functional as F
 
 class BaselineNetwork(nn.Module):
     """The baseline network.
@@ -29,6 +29,6 @@ class BaselineNetwork(nn.Module):
     def forward(self, h_t):
         logging.debug("\n\nBaselineNetwork")
         logging.debug(f"Input: {h_t.shape}")
-        b_t = self.fc(h_t.detach())
+        b_t = F.relu(self.fc(h_t.detach()))
         logging.debug(f"Fc1:   {b_t.shape}\n\n")
         return b_t
