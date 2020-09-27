@@ -97,14 +97,13 @@ class GlimpseNetwork(nn.Module):
         h = self.max_pool2(h)
         logging.debug(f"MaxPool2:   {h.shape}")
 
-
         # flatten
         # keep batch dimension and determine other one automatically
         h = h.view(x.shape[0], -1)
         logging.debug(f"Flatten:    {h.shape}")
 
         # fully connected layers
-        h = self.fc1(h)
+        h = F.relu(self.fc1(h))
         logging.debug(f"Fc1:        {h.shape}")
         h = self.fc2(h)
         logging.debug(f"Fc2:        {h.shape}")
@@ -112,7 +111,6 @@ class GlimpseNetwork(nn.Module):
         logging.debug(f"Bn1:        {h.shape}")
         h = F.relu(h)
         logging.debug(f"Bn1 ReLu:   {h.shape}")
-
 
         # where
         logging.debug("#### Where ####")
@@ -122,9 +120,10 @@ class GlimpseNetwork(nn.Module):
 
         l = self.loc_fc1(l_t_prev)
         logging.debug(f"Fc1(loc):      {l.shape}")
-        l = F.relu(l)
+        #l = F.relu(l)
         logging.debug(f"Fc1(loc) ReLu: {l.shape}")
         l = self.loc_fc2(l)
+        #l = F.relu(l)
         logging.debug(f"Fc2(loc):      {l.shape}")
         logging.debug("#### Combined ####")
         # combine what and where

@@ -255,9 +255,6 @@ class Trainer:
         loss_reinforce = torch.sum(-probs * adjusted_reward, dim=1).sum(dim = 1)
         loss_reinforce = torch.mean(loss_reinforce, dim=0)
 
-        #TODO LOGITS directly?
-        # sum up into a hybrid loss
-        #TODO super high loss with other sensor
         loss = loss_action + loss_baseline + loss_reinforce * 1
 
         # compute accuracy
