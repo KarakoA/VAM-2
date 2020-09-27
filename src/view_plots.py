@@ -40,8 +40,6 @@ def run():
     img_shape = images.shape[1]
     # denormalize coordinates
     coords = [denormalize(img_shape, l) for l in locations]
-    print(num_cols)
-    print(coords[0].shape)
     fig, axs = plt.subplots(nrows=1, ncols=num_cols)
     fig.set_dpi(400)
     # plot base image
@@ -66,13 +64,11 @@ def run():
     plt.show()
                 # animate
     anim = animation.FuncAnimation( fig, updateData, frames=num_anims, interval=500, repeat=True )
-    #from IPython.display import HTML HTML(anim.to_html5_video())
-    #anim.to_html5_video()
     # save as mp4
-    #name = plot_dir + "epoch_{}.mp4".format(epoch)
-    #anim.save(name, extra_args=["-vcodec", "h264", "-pix_fmt", "yuv420p"])
-    #print(name)
-    #os.system("start "+name)
+    name = plot_dir + "epoch_{}.mp4".format(epoch)
+    anim.save(name, extra_args=["-vcodec", "h264", "-pix_fmt", "yuv420p"])
+    print(name)
+    os.system("start "+name)
 
 if __name__ == '__main__':
     run()
