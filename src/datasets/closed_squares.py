@@ -11,8 +11,8 @@ class ClosedSquaresDataset(Dataset):
                  n_missing=2,
                  n_classes=4,
                  n_circles=6,
-                 total_train=16000,
-                 total_test=1600):
+                 total_train=4000,
+                 total_test=400):
         if train:
             np.random.seed(1)
         else:

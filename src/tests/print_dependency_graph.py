@@ -13,7 +13,7 @@ def run():
     config = Config()
     config.is_train = False
     config.batch_size = 3
-    config.num_glimpses = 5
+    config.num_glimpses = 2
     if config.use_gpu:
         torch.cuda.manual_seed(config.random_seed)
 
