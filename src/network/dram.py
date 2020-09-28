@@ -94,8 +94,8 @@ class RecurrentAttention(nn.Module):
         # h_t maintained by rnn itself
         self.rnn.reset(batch_size=batch_size, device=device)
 
-        l_t = torch.zeros(batch_size, 2).to(device)
-        #l_t = torch.FloatTensor(batch_size, 2).uniform_(-1, 1).to(device)
+        #l_t = torch.zeros(batch_size, 2).to(device)
+        l_t = torch.FloatTensor(batch_size, 2).uniform_(-1, 1).to(device)
         logging.debug(f"DRAM reset, l_0: {l_t}")
         # TODO it doesn't right?
         l_t.requires_grad = True
