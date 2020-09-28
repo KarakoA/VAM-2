@@ -59,7 +59,7 @@ class LocationNetwork(nn.Module):
         else:
             l_t = mean
 
-        #l_t = torch.zeros(25, 2).detach()
+        l_t = torch.zeros(25, 2).detach()
         #if torch.any(l_t < -1):
             #print("MEAN")
             #print(mean)
@@ -69,6 +69,6 @@ class LocationNetwork(nn.Module):
         #    print("MEAN")
         #    print(mean)
         # bound between [-1, 1]
-        l_t = torch.clamp(l_t, -1, 1)
+        #l_t = torch.clamp(l_t, -1, 1)
 
         return mean, l_t

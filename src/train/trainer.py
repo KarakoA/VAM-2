@@ -255,7 +255,7 @@ class Trainer:
         loss_reinforce = torch.sum(-probs * adjusted_reward, dim=1).sum(dim = 1)
         loss_reinforce = torch.mean(loss_reinforce, dim=0)
 
-        loss = loss_action + loss_baseline + loss_reinforce * 1
+        loss = loss_action # + loss_baseline + loss_reinforce * 1
 
         # compute accuracy
         correct = (predicted == y).float()
