@@ -257,7 +257,7 @@ class Trainer:
         #TODO LOGITS directly?
         # sum up into a hybrid loss
         #TODO super high loss with other sensor
-        loss = loss_action + loss_baseline + loss_reinforce * 1
+        loss = loss_action + loss_baseline + loss_reinforce * self.config.reward_multi
 
         # compute accuracy
         correct = (predicted == y).float()

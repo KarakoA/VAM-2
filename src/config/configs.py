@@ -15,6 +15,8 @@ class Config():
         # reinforce params
         self.std             = 0.11      # gaussian policy standard deviation
         self.M               = 1         # Monte Carlo sampling for valid and test sets
+        self.reward_multi    = 0.1         # reward multiplier(0-1] setting it to values <1
+                                         # should make the policy less flakey ( I think. let's see the effects)
 
         # action network
         self.num_classes     = 4         # the number of classes
