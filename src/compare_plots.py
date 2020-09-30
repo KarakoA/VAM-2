@@ -33,8 +33,8 @@ def run():
     config = Config()
     plot_dir = "./plots/" + config.model_name + "/"
 
-    epoch1 = 161
-    epoch2 = 163
+    epoch1 = 4
+    epoch2 = 5
 
     # read in pickle files
     (images1,locations1)  = images_and_locations(epoch1,plot_dir)
@@ -62,13 +62,13 @@ def run():
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
 
-    def updateData2(k):
-        (coords1, coords2) = k
-        print((coords1 == coords2).all())
-
+    #cols = ["r","g","b","y","m","c"]
+    k = list(zip(coords1, coords2))
+    def updateData2(i):
+        (coords1, coords2) = k[i]
+        print(i)
         # j - img counter
         for j, ax in enumerate(axs.flat):
-            # remove old patches
             for p in ax.patches:
                 p.remove()
             for p in ax.patches:
@@ -76,13 +76,13 @@ def run():
             co1 = coords1[j]
             co2 = coords2[j]
             rect1 = bounding_box(co1[0], co1[1], size, "r")
+
             rect2 = bounding_box(co2[0], co2[1], size, "b")
 
             ax.add_patch(rect1)
             ax.add_patch(rect2)
-
     # animate
-    anim = animation.FuncAnimation( fig, updateData2, frames=zip(coords1,coords2), interval=500, repeat=False )
+    anim = animation.FuncAnimation( fig, updateData2, frames=range(len(coords1)), interval=500, repeat=False )
     # save as mp4
     name = plot_dir + "epoch_{}=={}.mp4".format(epoch1,epoch2)
     anim.save(name, extra_args=["-vcodec", "h264", "-pix_fmt", "yuv420p"])
