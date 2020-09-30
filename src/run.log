@@ -7052,3 +7052,9 @@ Epoch: 13/1000 - LR: 0.001000
 train loss: 0.961 - train acc: 65.979 - action: 0.795, baseline: 0.221 reinforce: -0.055 - val loss: 7.642 - val acc: 28.062
 
 Epoch: 14/1000 - LR: 0.001000
+train loss: 0.945 - train acc: 67.590 - action: 0.756, baseline: 0.214 reinforce: -0.024 - val loss: 5.987 - val acc: 38.250
+
+Epoch: 15/1000 - LR: 0.001000
+train loss: 1.032 - train acc: 65.333 - action: 0.807, baseline: 0.220 reinforce: 0.005 - val loss: 10.803 - val acc: 24.375
+
+Epoch: 16/1000 - LR: 0.001000

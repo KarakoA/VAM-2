@@ -28,13 +28,10 @@ def images_and_locations(epoch, plot_dir):
     images = np.concatenate(images)
     return (images,locations)
 
-def run():
+def run(epoch1,epoch2):
 
     config = Config()
     plot_dir = "./plots/" + config.model_name + "/"
-
-    epoch1 = 4
-    epoch2 = 5
 
     # read in pickle files
     (images1,locations1)  = images_and_locations(epoch1,plot_dir)
@@ -66,7 +63,6 @@ def run():
     k = list(zip(coords1, coords2))
     def updateData2(i):
         (coords1, coords2) = k[i]
-        print(i)
         # j - img counter
         for j, ax in enumerate(axs.flat):
             for p in ax.patches:
@@ -82,7 +78,7 @@ def run():
             ax.add_patch(rect1)
             ax.add_patch(rect2)
     # animate
-    anim = animation.FuncAnimation( fig, updateData2, frames=range(len(coords1)), interval=500, repeat=False )
+    anim = animation.FuncAnimation( fig, updateData2, frames=range(len(coords1)), interval=750, repeat=False )
     # save as mp4
     name = plot_dir + "epoch_{}=={}.mp4".format(epoch1,epoch2)
     anim.save(name, extra_args=["-vcodec", "h264", "-pix_fmt", "yuv420p"])
@@ -90,4 +86,6 @@ def run():
     os.system("open "+name)
 
 if __name__ == '__main__':
-    run()
+    epoch1 = 11
+    epoch2 = 12
+    run(epoch1,epoch2)
