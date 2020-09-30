@@ -18,7 +18,7 @@ from utils.utils import prepare_dirs
 
 def main(config):
     prepare_dirs(config)
-
+    torch.random.manual_seed(config.random_seed)
     if config.use_gpu:
         torch.cuda.manual_seed(config.random_seed)
 
