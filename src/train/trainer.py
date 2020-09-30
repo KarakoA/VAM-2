@@ -8,6 +8,8 @@ import torch
 import torch.nn.functional as F
 from torch.distributions import Normal
 
+import itertools
+
 from tqdm import tqdm
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tensorboard_logger import configure, log_value
@@ -182,8 +184,6 @@ class Trainer:
                 batch_size = x.shape[0]
                 pbar.update(batch_size)
 
-                self.__save_images_if_plotting(epoch, i, locs, imgs)
-
                 # log to tensorboard
                 if self.config.use_tensorboard:
                     iteration = epoch * len(self.train_loader) + i
@@ -197,13 +197,13 @@ class Trainer:
         batch_size = x.shape[0]
         x, y = x.to(self.device), y.to(self.device)
 
-        l_t = self.model.reset(batch_size, self.device)
-
         imgs = []
         locs = []
         means = []
         baselines = []
         locations = []
+        l_t = self.model.reset(batch_size, self.device)
+        locs.append(l_t[0:9])
         for t in range(self.num_glimpses - 1):
             # forward pass through model
             h_t, l_t, b_t, mean_t = self.model(x, l_t)
@@ -218,7 +218,6 @@ class Trainer:
         _, _, _, probabilities, _ = self.model(x, l_t, last=True)
 
         # save locs and images for plotting
-        locs.append(l_t[0:9])
         imgs.append(x[0:9])
 
         # convert list to tensors and reshape
@@ -255,7 +254,10 @@ class Trainer:
         loss_reinforce = torch.sum(-probs * adjusted_reward, dim=1).sum(dim = 1)
         loss_reinforce = torch.mean(loss_reinforce, dim=0)
 
-        loss = loss_action # + loss_baseline + loss_reinforce * 1
+        #TODO LOGITS directly?
+        # sum up into a hybrid loss
+        #TODO super high loss with other sensor
+        loss = loss_action + loss_baseline + loss_reinforce * self.config.reward_multi
 
         # compute accuracy
         correct = (predicted == y).float()
@@ -263,9 +265,10 @@ class Trainer:
 
         return loss, acc, predicted, locs, imgs, loss_action ,loss_baseline, loss_reinforce
 
-    def __save_images_if_plotting(self, epoch, i, locs, imgs):
+    def __save_images_if_plotting(self, epoch, i, locs, imgs,y):
         # dump the glimpses and locs
         if (epoch % self.config.plot_freq == 0) and (i == 0):
+            #print(y)
             imgs = [g.cpu().data.numpy().squeeze() for g in imgs]
             locs = [l.cpu().data.numpy() for l in locs]
             pickle.dump(imgs, open(self.plot_dir + "g_{}.p".format(epoch + 1), "wb"))
@@ -279,9 +282,11 @@ class Trainer:
         accs = AverageMeter()
         # TODO check
         self.model.eval()
-        for i, (x, y) in enumerate(self.valid_loader):
-            loss, acc, preds, locs, imgs, _,_,_ = self.one_batch(x, y)
 
+        for i, (x, y) in enumerate(self.valid_loader):
+            # 3, 3, 0, 2, 3, 0, 1, 1, 1
+            loss, acc, preds, locs, imgs, _,_,_ = self.one_batch(x, y)
+            self.__save_images_if_plotting(epoch, i, locs, imgs,y)
             # store
             losses.update(loss.item(), x.size()[0])
             accs.update(acc.item(), x.size()[0])

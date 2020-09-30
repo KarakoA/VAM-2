@@ -45,9 +45,14 @@ class CoreNetwork(nn.Module):
         g_t = g_t.unsqueeze(1)
         logging.debug(f"Input(Seq): {g_t.shape}")
         # output == top layer of h_t. So for 2 layers `o == h_t[1]` yield all true
+        #(output, (hn, cn)) = self.stacked_lstm.forward(g_t,
+        #                                                                           (self.hidden_state, self.cell_state))
+        #self.hidden_state = hn
+        #self.cell_state = cn
         (output, (self.hidden_state, self.cell_state)) = self.stacked_lstm.forward(g_t,
-                                                                                   (self.hidden_state, self.cell_state))
-        
+                                                       (self.hidden_state, self.cell_state))
+        #self.hidden_state = hn
+        #self.cell_state = cn
         logging.debug(f"Output:     {output.shape}")
         logging.debug(f"CellSt:     {self.cell_state.shape}")
         logging.debug(f"HiddenSt:   {self.hidden_state.shape}\n\n")
