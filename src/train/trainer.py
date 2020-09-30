@@ -8,6 +8,8 @@ import torch
 import torch.nn.functional as F
 from torch.distributions import Normal
 
+import itertools
+
 from tqdm import tqdm
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tensorboard_logger import configure, log_value
@@ -182,7 +184,7 @@ class Trainer:
                 batch_size = x.shape[0]
                 pbar.update(batch_size)
 
-                self.__save_images_if_plotting(epoch, i, locs, imgs)
+                #self.__save_images_if_plotting(epoch, i, locs, imgs)
 
                 # log to tensorboard
                 if self.config.use_tensorboard:
@@ -282,9 +284,11 @@ class Trainer:
         accs = AverageMeter()
         # TODO check
         self.model.eval()
-        for i, (x, y) in enumerate(self.valid_loader):
-            loss, acc, preds, locs, imgs, _,_,_ = self.one_batch(x, y)
 
+        for i, (x, y) in enumerate(self.valid_loader):
+            # 3, 3, 0, 2, 3, 0, 1, 1, 1
+            loss, acc, preds, locs, imgs, _,_,_ = self.one_batch(x, y)
+            self.__save_images_if_plotting(epoch, i, locs, imgs)
             # store
             losses.update(loss.item(), x.size()[0])
             accs.update(acc.item(), x.size()[0])
