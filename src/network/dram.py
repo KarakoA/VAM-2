@@ -81,8 +81,8 @@ class RecurrentAttention(nn.Module):
         """
         g_t = self.sensor(x, l_t_prev)
         h_t = self.rnn(g_t)
-        mean_t, l_t = self.locator(h_t)
-        b_t = self.baseliner(h_t).squeeze()
+        mean_t, l_t = self.locator(h_t.detach())
+        b_t = self.baseliner(h_t.detach()).squeeze()
 
         if last:
             probabilities = self.classifier(h_t)

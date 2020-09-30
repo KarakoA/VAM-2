@@ -13,7 +13,7 @@ def run():
     config = Config()
     config.is_train = False
     config.batch_size = 3
-    config.num_glimpses = 5
+    config.num_glimpses = 4
     if config.use_gpu:
         torch.cuda.manual_seed(config.random_seed)
 
@@ -28,7 +28,7 @@ def run():
     #params =dict(trainer.model.named_parameters())
     params = {**{'inputs': imgs}, **dict(trainer.model.named_parameters())}
     dot = make_dot(loss,params)
-    dot.render('./tmp/dot-graph.gv', view = True)
+    dot.render('./tmp/dot-graph-2.gv', view = True)
 
 if __name__ == '__main__':
     run()

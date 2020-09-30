@@ -34,7 +34,7 @@ class Config():
         self.weight_decay    = 1e-5      # Weight decay for regularization
         self.momentum        = 0.5       # Nesterov momentum value TODO not used
         self.epochs          = 1000       # Num of epochs to train for
-        self.init_lr         = 1e-3      # Initial learning rate value
+        self.init_lr         = 0.01      # Initial learning rate value
         self.lr_patience     = 50        # Number of epochs to wait before reducing lr
         self.train_patience  = 100       # Number of epochs to wait before stopping train
 
