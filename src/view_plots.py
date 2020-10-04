@@ -24,10 +24,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-def run():
+def run(epoch):
     config = Config()
     plot_dir = "./plots/" + config.model_name + "/"
-    epoch = 1
+
     # read in pickle files
     images = pickle.load(open(plot_dir + "g_{}.p".format(epoch), "rb"))
     locations = pickle.load(open(plot_dir + "l_{}.p".format(epoch), "rb"))
@@ -58,10 +58,13 @@ def run():
         color = "r"
 
         co = coords[i]
+
         for j, ax in enumerate(axs.flat):
             for p in ax.patches:
                 p.remove()
             c = co[j]
+            if j == 0:
+                print(co)
             rect = bounding_box(c[0], c[1], size, color)
 
             ax.add_patch(rect)
@@ -77,4 +80,5 @@ def run():
     os.system("open "+name)
 
 if __name__ == '__main__':
-    run()
+    epoch = 6
+    run(epoch)
