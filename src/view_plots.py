@@ -80,5 +80,5 @@ def run(epoch):
     os.system("open "+name)
 
 if __name__ == '__main__':
-    epoch = 6
+    epoch = 21
     run(epoch)

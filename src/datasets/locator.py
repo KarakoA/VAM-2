@@ -3,6 +3,7 @@ import torchvision
 from torchvision.transforms import transforms
 
 from config.configs import Config
+from datasets.augmented_medical import AugmentedMedicalMNISTDataset
 from datasets.closed_squares import ClosedSquaresDataset
 from datasets.datasets import DatasetType, DatasetName
 import numpy as np
@@ -66,6 +67,9 @@ class DatasetLocator:
             transform = self.__augmented_mnist_transformation()
         elif self.dataset == DatasetName.TRANSFORMED:
             transform = self.__transformed_mnist_transformation()
+        elif self.dataset == DatasetName.AUGMENTED_MEDICAL:
+            return AugmentedMedicalMNISTDataset(root_dir='.', data_dir = "MEDNIST",train = is_train, mnist_transform = self.__augmented_mnist_transformation())
+
         elif self.dataset == DatasetName.CLOSED_SQUARES:
             return ClosedSquaresDataset(train=is_train)
         return torchvision.datasets.MNIST(root='./data', train=is_train, download=True, transform=transform)

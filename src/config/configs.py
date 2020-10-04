@@ -2,8 +2,8 @@ from datasets.datasets import DatasetName
 class Config():
     def __init__(self):
         # glimpse network params
-        self.patch_size      = 8         # size of extracted patch at highest res
-        self.glimpse_scale   = 8         # scale of successive patches
+        self.patch_size      = 16         # size of extracted patch at highest res
+        self.glimpse_scale   = 16         # scale of successive patches
         self.num_patches     = 2         # Num of downscaled patches per glimpse
         self.loc_hidden      = 128       # hidden size of loc fc layer
         self.glimpse_hidden  = 128       # hidden size of glimpse fc
@@ -48,7 +48,7 @@ class Config():
         self.use_tensorboard = False     # Whether to use tensorboard for visualization
         self.print_freq      = 100       # How frequently to print training details
         self.plot_freq       = 1         # How frequently to plot glimpses
-        self.dataset         = DatasetName.CLOSED_SQUARES
+        self.dataset         = DatasetName.AUGMENTED_MEDICAL
         self.model_name      = "ram_{}_{}x{}_{}".format(
             self.num_glimpses,
             self.patch_size,
