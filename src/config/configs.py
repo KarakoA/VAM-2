@@ -2,8 +2,8 @@ from datasets.datasets import DatasetName
 class Config():
     def __init__(self):
         # glimpse network params
-        self.patch_size      = 16         # size of extracted patch at highest res
-        self.glimpse_scale   = 16         # scale of successive patches
+        self.patch_size      = 12         # size of extracted patch at highest res
+        self.glimpse_scale   = 5         # scale of successive patches
         self.num_patches     = 2         # Num of downscaled patches per glimpse
         self.loc_hidden      = 128       # hidden size of loc fc layer
         self.glimpse_hidden  = 128       # hidden size of glimpse fc
@@ -13,13 +13,13 @@ class Config():
         self.hidden_size     = 256       # hidden size of rnn
 
         # reinforce params
-        self.std             = 0.11      # gaussian policy standard deviation
+        self.std             = 0.22      # gaussian policy standard deviation
         self.M               = 1         # Monte Carlo sampling for valid and test sets
         self.reward_multi    = 1         # reward multiplier(0-1] setting it to values <1
                                          # should make the policy less flakey ( I think. let's see the effects)
 
         # action network
-        self.num_classes     = 4         # the number of classes
+        self.num_classes     = 10         # the number of classes
 
         # ETC params
         self.valid_size      = 0.1       # Proportion of training set used for validation
@@ -48,7 +48,7 @@ class Config():
         self.use_tensorboard = False     # Whether to use tensorboard for visualization
         self.print_freq      = 100       # How frequently to print training details
         self.plot_freq       = 1         # How frequently to plot glimpses
-        self.dataset         = DatasetName.AUGMENTED_MEDICAL
+        self.dataset         = DatasetName.TRANSFORMED
         self.model_name      = "ram_{}_{}x{}_{}".format(
             self.num_glimpses,
             self.patch_size,

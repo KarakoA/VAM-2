@@ -63,8 +63,8 @@ def run(epoch):
             for p in ax.patches:
                 p.remove()
             c = co[j]
-            if j == 0:
-                print(co)
+            #if j == 0:
+            #    print(co)
             rect = bounding_box(c[0], c[1], size, color)
 
             ax.add_patch(rect)
@@ -80,5 +80,5 @@ def run(epoch):
     os.system("open "+name)
 
 if __name__ == '__main__':
-    epoch = 21
+    epoch = 81
     run(epoch)
