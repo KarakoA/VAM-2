@@ -2,6 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 import numpy as np
 from config.configs import Config
+from datasets.augmented_medical import AugmentedMedicalMNISTDataset
 from datasets.closed_squares import ClosedSquaresDataset
 from datasets.datasets import DatasetType
 from datasets.locator import DatasetLocator
@@ -50,6 +51,7 @@ def show_racoon():
 
     images = np.repeat(images, n).reshape((images.shape[0], images.shape[1], n)).transpose(2, 0, 1)
     images = torch.tensor(images).unsqueeze(1)
+    print(images.shape)
     show_patches(images, labels, glimpse_sensor, locs)
 
 def show_data():
@@ -65,9 +67,27 @@ def show_data():
     images = torch.tensor(images).unsqueeze(1)
 
     show_patches(images, labels, glimpse_sensor, locs)
+
+def show_locator_data():
+    conf = Config()
+    glimpse_sensor = Retina(conf)
+
+    locator = DatasetLocator(conf)
+    dloader = locator.data_loader(DatasetType.TEST)
+
+    images,targets  = iter(dloader).next()
+    # one of each class
+    images = images[0:5]
+    targets = targets[0:5]
+
+    locs = torch.zeros(len(images),conf.num_glimpses)
+    labels = targets
+    show_patches(images, labels, glimpse_sensor, locs)
+
 def run():
   show_racoon()
   show_data()
+  show_locator_data()
 
 
 # and other with patches from mine
