@@ -76,9 +76,8 @@ def run(epoch):
     # save as mp4
     name = plot_dir + "epoch_{}.mp4".format(epoch)
     anim.save(name, extra_args=["-vcodec", "h264", "-pix_fmt", "yuv420p"])
-    print(name)
     os.system("open "+name)
 
 if __name__ == '__main__':
-    epoch = 21
+    epoch = 157
     run(epoch)
