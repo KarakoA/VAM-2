@@ -173,8 +173,8 @@ class AugmentedMedicalMNISTDataset(Dataset):
 
         np.save(os.path.join(self.dir, "labels"), np.array(self.labels))
 
-        if not self.train:
-            np.save(os.path.join(self.dir, "sources"), np.array(self.source_images))
+        #if not self.train:
+        #    np.save(os.path.join(self.dir, "sources"), np.array(self.source_images))
 
     def __load_data(self):
         n_partitions = self.n_partitions_train if self.train else self.n_partitions_test

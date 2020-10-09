@@ -6,26 +6,7 @@ from config.configs import Config
 
 class Retina:
     """
-    Extracts a glimpse `phi` around location `l`
-    from an image `x`.
-
-    Encodes the region around `l` at a
-    high-resolution but uses a progressively lower
-    resolution for pixels further from `l`, resulting
-    in a compressed representation of the original
-    image `x`.
-
-    Args:
-        x: a 4D Tensor of shape (B, H, W, C). The minibatch
-            of images.
-        l: a 2D Tensor of shape (B, 2). Contains normalized
-            coordinates in the range [-1, 1].
-        From config:
-
-        patch_size: size of the first square patch.
-        num_patches: number of patches to extract in the glimpse.
-        scale: scaling factor that controls the size of
-            successive patches.
+    Uses max instead of avg.
     """
 
     def __init__(self, conf:Config):

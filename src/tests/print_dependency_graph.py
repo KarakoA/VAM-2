@@ -28,7 +28,7 @@ def run():
     #params =dict(trainer.model.named_parameters())
     params = {**{'inputs': imgs}, **dict(trainer.model.named_parameters())}
     dot = make_dot(loss,params)
-    dot.render('./tmp/dot-graph-2.gv', view = True)
+    dot.render('./tmp/graph.gv.pdf', view = True)
 
 if __name__ == '__main__':
     run()
