@@ -86,6 +86,6 @@ def run(epoch1,epoch2):
     os.system("open "+name)
 
 if __name__ == '__main__':
-    epoch1 = 11
-    epoch2 = 12
+    epoch1 = 12
+    epoch2 = 13
     run(epoch1,epoch2)

@@ -5,7 +5,7 @@ import torch.nn as nn
 
 from network.action_network import ActionNetwork
 from network.baseline_network import BaselineNetwork
-from network.core_network import CoreNetwork
+from simplified.core_network_simple import CoreNetwork
 from network.glimpse_network import GlimpseNetwork
 from network.location_network import LocationNetwork
 

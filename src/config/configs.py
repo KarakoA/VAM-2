@@ -3,8 +3,8 @@ class Config():
     def __init__(self):
         # glimpse network params
         self.patch_size      = 8         # size of extracted patch at highest res
-        self.glimpse_scale   = 8         # scale of successive patches
-        self.num_patches     = 2         # Num of downscaled patches per glimpse
+        self.glimpse_scale   = 2         # scale of successive patches
+        self.num_patches     = 4         # Num of downscaled patches per glimpse
         self.loc_hidden      = 128       # hidden size of loc fc layer
         self.glimpse_hidden  = 128       # hidden size of glimpse fc
 
@@ -15,11 +15,11 @@ class Config():
         # reinforce params
         self.std             = 0.11      # gaussian policy standard deviation
         self.M               = 1         # Monte Carlo sampling for valid and test sets
-        self.reward_multi    = 0.1         # reward multiplier(0-1] setting it to values <1
+        self.reward_multi    = 1         # reward multiplier(0-1] setting it to values <1
                                          # should make the policy less flakey ( I think. let's see the effects)
 
         # action network
-        self.num_classes     = 4         # the number of classes
+        self.num_classes     = 10         # the number of classes
 
         # ETC params
         self.valid_size      = 0.1       # Proportion of training set used for validation
@@ -34,7 +34,7 @@ class Config():
         self.weight_decay    = 1e-5      # Weight decay for regularization
         self.momentum        = 0.5       # Nesterov momentum value TODO not used
         self.epochs          = 1000       # Num of epochs to train for
-        self.init_lr         = 0.01      # Initial learning rate value
+        self.init_lr         = 0.001      # Initial learning rate value
         self.lr_patience     = 50        # Number of epochs to wait before reducing lr
         self.train_patience  = 100       # Number of epochs to wait before stopping train
 
@@ -48,7 +48,7 @@ class Config():
         self.use_tensorboard = False     # Whether to use tensorboard for visualization
         self.print_freq      = 100       # How frequently to print training details
         self.plot_freq       = 1         # How frequently to plot glimpses
-        self.dataset         = DatasetName.CLOSED_SQUARES
+        self.dataset         = DatasetName.TRANSFORMED
         self.model_name      = "ram_{}_{}x{}_{}".format(
             self.num_glimpses,
             self.patch_size,
