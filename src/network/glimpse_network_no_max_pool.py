@@ -10,7 +10,7 @@ from network.glimpse_sensor import Retina
 class GlimpseNetwork(nn.Module):
     """The glimpse network.
 
-    TODO
+a    TODO docs
 
     Args:
         conf.glimpse_hidden: hidden layer size of the fc layer for `phi`.
@@ -49,11 +49,7 @@ class GlimpseNetwork(nn.Module):
 
         self.conv3 = nn.Conv2d(in_channels=self.conv2.out_channels, out_channels=16, kernel_size=3, padding=1)
 
-        # W * H of previous layer * depth
-        # W* H altered by max pooling
-        # TODO
-        # reduced_dim = math.floor((1 + math.floor((1 + self.conv2.out_channels + 1) / 3) + 1) / 3)
-        D_in = self.conv3.out_channels  # * reduced_dim * reduced_dim
+        D_in = self.conv3.out_channels * conf.patch_size * conf.patch_size
 
         self.fc1 = nn.Linear(in_features=D_in, out_features=D_out)
 
