@@ -221,7 +221,6 @@ class Trainer:
         imgs.append(x[0:9])
 
         # convert list to tensors and reshape
-        #TODO verify the transpoe
         baselines = torch.stack(baselines).transpose(1, 0)
         means = torch.stack(means).transpose(1, 0)
         locations = torch.stack(locations).transpose(1, 0)
@@ -245,7 +244,6 @@ class Trainer:
 
         # compute reinforce loss
 
-        # todo NEGATE reinforce loss?
         adjusted_reward = R - baselines.detach()
 
         adjusted_reward=adjusted_reward.repeat(1, 2).reshape(self.config.batch_size,-1,2).detach()
@@ -254,9 +252,6 @@ class Trainer:
         loss_reinforce = torch.sum(-probs * adjusted_reward, dim=1).sum(dim = 1)
         loss_reinforce = torch.mean(loss_reinforce, dim=0)
 
-        #TODO LOGITS directly?
-        # sum up into a hybrid loss
-        #TODO super high loss with other sensor
         loss = loss_action + loss_baseline + loss_reinforce * self.config.reward_multi
 
         # compute accuracy
@@ -268,7 +263,6 @@ class Trainer:
     def __save_images_if_plotting(self, epoch, i, locs, imgs,y):
         # dump the glimpses and locs
         if (epoch % self.config.plot_freq == 0) and (i == 0):
-            #print(y)
             imgs = [g.cpu().data.numpy().squeeze() for g in imgs]
             locs = [l.cpu().data.numpy() for l in locs]
             pickle.dump(imgs, open(self.plot_dir + "g_{}.p".format(epoch + 1), "wb"))
@@ -280,7 +274,6 @@ class Trainer:
         """
         losses = AverageMeter()
         accs = AverageMeter()
-        # TODO check
         self.model.eval()
 
         for i, (x, y) in enumerate(self.valid_loader):
@@ -309,7 +302,6 @@ class Trainer:
 
         # load the best checkpoint
         self.load_checkpoint(best=self.best)
-        # TODO check
         self.model.eval()
 
         for i, (x, y) in enumerate(self.test_loader):

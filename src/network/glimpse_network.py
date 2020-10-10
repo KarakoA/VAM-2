@@ -9,28 +9,8 @@ from network.glimpse_sensor import Retina
 
 
 class GlimpseNetwork(nn.Module):
-    """The glimpse network.
-
-    TODO
-
-    Args:
-        conf.glimpse_hidden: hidden layer size of the fc layer for `phi`.
-        conf.loc_hidden: hidden layer size of the fc layer for `l`.
-        g: size of the square patches in the glimpses extracted
-        by the retina.
-        k: number of patches to extract per glimpse.
-        s: scaling factor that controls the size of successive patches.
-        c: number of channels in each image.
-        x: a 4D Tensor of shape (B, H, W, C). The minibatch
-            of images.
-        l_t_prev: a 2D tensor of shape (B, 2). Contains the glimpse
-            coordinates [x, y] for the previous timestep `t-1`.
-
-    Returns:
-        g_t: a 2D tensor of shape (B, hidden_size).
-            The glimpse representation returned by
-            the glimpse network for the current
-            timestep `t`.
+    """
+    The glimpse network.
     """
 
     def __init__(self, conf:Config):
@@ -56,8 +36,6 @@ class GlimpseNetwork(nn.Module):
 
         # W * H of previous layer * depth
         # W* H altered by max pooling
-        #TODO
-        #reduced_dim = math.floor((1 + math.floor((1 + self.conv2.out_channels + 1) / 3) + 1) / 3)
         D_in = self.conv3.out_channels# * reduced_dim * reduced_dim
 
         self.fc1 = nn.Linear(in_features=D_in, out_features=conf.glimpse_hidden)

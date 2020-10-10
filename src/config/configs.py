@@ -32,7 +32,6 @@ class Config():
         self.is_train        = True      # Whether to train(true) or test the model
         self.resume          = False     # Whether to resume training from checkpoint
         self.weight_decay    = 1e-5      # Weight decay for regularization
-        self.momentum        = 0.5       # Nesterov momentum value TODO not used
         self.epochs          = 1000       # Num of epochs to train for
         self.init_lr         = 0.001      # Initial learning rate value
         self.lr_patience     = 50        # Number of epochs to wait before reducing lr

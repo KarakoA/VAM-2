@@ -8,15 +8,9 @@ Node = namedtuple('Node', ('name', 'inputs', 'attr', 'op'))
 
 
 def make_dot(var, params=None):
-    """ Produces Graphviz representation of PyTorch autograd graph.
-
-    Blue nodes are the Variables that require grad, orange are Tensors
-    saved for backward in torch.autograd.Function
-
-    Args:
-        var: output Variable
-        params: dict of (name, Variable) to add names to node that
-            require grad (TODO: make optional)
+    """
+    Produces Graphviz representation of PyTorch autograd graph.
+     Copied from lib and fixed bug when not all params are defined
     """
     if params is not None:
         assert all(isinstance(p, Variable) for p in params.values())
@@ -44,6 +38,7 @@ def make_dot(var, params=None):
                 dot.node(str(id(var)), size_to_str(var.size()), fillcolor='orange')
             elif hasattr(var, 'variable'):
                 u = var.variable
+                #change by @Anton issue was here
                 name = param_map.get(id(u), ' ') if params is not None else ''
                 node_name = '%s\n %s' % (name, size_to_str(u.size()))
                 dot.node(str(id(var)), node_name, fillcolor='lightblue')
